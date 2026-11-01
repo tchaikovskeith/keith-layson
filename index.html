@@ -29,7 +29,7 @@ h1{font:clamp(25px,5vw,43px)/1.35 'Press Start 2P',monospace;margin:25px 0 12px;
 .avatar{font-size:27px}
 .player small{display:block;color:var(--muted);font-weight:900}
 .coins{background:var(--yellow);padding:9px 13px;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
-.nav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:20px 0 25px}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:20px 0 25px}
 .nav button,.btn{border:3px solid var(--ink);background:var(--yellow);color:var(--ink);padding:12px 10px;box-shadow:3px 3px 0 var(--ink);font-weight:900;border-radius:4px;text-decoration:none;display:inline-block;text-align:center;transition:transform .12s,box-shadow .12s}
 .nav button{font-size:13px;min-height:54px}
 .nav button:hover,.btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
@@ -59,7 +59,7 @@ th,td{text-align:left;vertical-align:top;border:2px solid var(--line);padding:10
 th{background:#dff4ff;font-size:13px}
 td{font-size:14px}
 .pill{display:inline-block;border:2px solid var(--ink);padding:3px 8px;font-size:11px;background:#fff1b9;border-radius:3px;white-space:nowrap}
-.event-list,.checklist,.timeline,.task-feed{display:grid;gap:10px}
+.event-list,.checklist,.timeline,.task-feed,.resource-feed{display:grid;gap:10px}
 .event{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px;border:2px solid var(--ink);background:white}
 .event-date{background:var(--yellow);border:2px solid var(--ink);padding:8px;text-align:center;font-weight:900}
 .event-date b{display:block;font-size:21px}
@@ -94,19 +94,20 @@ td{font-size:14px}
 .portal-step .emoji{font-size:28px}
 .portal-step strong{display:block;margin:7px 0}
 .portal-step span{font-size:12px;color:var(--muted)}
-.announcement,.assigned-task{background:white;border:3px solid var(--ink);padding:19px;margin:15px 0;box-shadow:4px 4px 0 #d8c9a6}
-.announcement-header,.assigned-task-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.announcement,.assigned-task,.resource-card{background:white;border:3px solid var(--ink);padding:19px;margin:12px 0;box-shadow:4px 4px 0 #d8c9a6}
+.announcement-header,.assigned-task-header,.resource-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
 .announcement-tag{display:inline-block;padding:5px 9px;border:2px solid var(--ink);background:var(--yellow);font-size:11px;font-weight:900}
 .announcement-date{color:var(--muted);font-size:12px}
-.announcement h3,.assigned-task h3{margin:8px 0}
-.announcement p,.assigned-task p{font-size:14px;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere}
-.announcement-status,.task-status{font-size:13px;color:var(--muted)}
-.empty-state{background:white;border:3px dashed var(--line);text-align:center;padding:28px;margin:20px 0}
-.assignment-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0}
-.assignment-filter select{background:white;border:2px solid var(--ink);padding:9px;border-radius:4px}
+.announcement h3,.assigned-task h3,.resource-card h3{margin:8px 0}
+.announcement p,.assigned-task p,.resource-card p{font-size:14px;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere}
+.feed-status{font-size:13px;color:var(--muted)}
+.empty-state{background:white;border:3px dashed var(--line);text-align:center;padding:28px;margin:12px 0}
+.assignment-filter,.resource-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0}
+.assignment-filter select,.resource-filter select{background:white;border:2px solid var(--ink);padding:9px;border-radius:4px;max-width:100%}
 .assignment-labels{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}
-.assigned-task .btn{margin-top:10px}
-.task-details{font-size:13px;color:var(--muted)}
+.assigned-task .btn,.resource-card .btn{margin-top:10px}
+.home-announcements{margin-bottom:28px;padding-bottom:22px;border-bottom:4px dashed #c9d8c4}
+.home-resources{margin-top:28px;padding-top:23px;border-top:4px dashed #c9d8c4}
 .footer{text-align:center;color:#31536a;padding:25px 10px 0;font-size:13px}
 @media(max-width:900px){.nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){
@@ -127,7 +128,6 @@ td{font-size:14px}
 <body>
 <div class="clouds">☁️　☁️　　 ☁️　☁️　　☁️</div>
 <div class="wrap">
-
 <header class="hero">
 <span class="tag">🍄 TLN TRAINING • 2026</span>
 <h1>THE TRAINING QUEST</h1>
@@ -135,29 +135,33 @@ td{font-size:14px}
 <p>Welcome, Player! Your mission is to prepare, improve, collaborate, and conquer the competition.</p>
 <div class="pixel-row">☁️　🪙　🍄　🧱　⭐　🪙　☁️</div>
 </header>
-
 <div class="topbar">
-<div class="player">
-<span class="avatar">🧑‍🚀</span>
-<div><strong>PLAYER 1</strong><small>TLN TRAINING MEMBER</small></div>
-</div>
+<div class="player"><span class="avatar">🧑‍🚀</span><div><strong>PLAYER 1</strong><small>TLN TRAINING MEMBER</small></div></div>
 <div class="coins">🪙 COINS: <strong id="coinCount">0</strong></div>
 </div>
 
-<!-- SIX TOP-LEVEL BUTTONS -->
+<!-- FIVE MAIN BUTTONS ONLY -->
 <nav class="nav" aria-label="Main navigation">
 <button class="active" data-target="home">🏠 Home</button>
 <button data-target="worlds">🌎 Worlds</button>
 <button data-target="checklist">✅ My Checklist</button>
 <button data-target="my-tasks">📜 My Tasks</button>
 <button data-target="masters">👑 Game Masters</button>
-<button data-target="announcements">📢 Announcement Tab</button>
 </nav>
 
 <main>
 
+<!-- HOME: ANNOUNCEMENTS FIRST, WELCOME SECOND, RESOURCES LAST -->
 <section id="home" class="section active">
 <div class="panel">
+<div class="home-announcements" aria-labelledby="home-announcements-title">
+<h2 id="home-announcements-title">📢 LATEST ANNOUNCEMENTS</h2>
+<p>Official training notices and reminders from the Game Masters.</p>
+<div class="toolbar"><button class="btn blue" type="button" onclick="loadAnnouncements()">🔄 REFRESH ANNOUNCEMENTS</button></div>
+<p id="announcementStatus" class="feed-status" role="status" aria-live="polite">Loading announcements...</p>
+<div id="announcementList"></div>
+</div>
+
 <h2>WELCOME TO THE TRAINING QUEST</h2>
 <p>This portal serves as the training guide for TLN Training Quest 2026.</p>
 <div class="notice yellow"><strong>🎮 YOUR MISSION:</strong> Explore the Worlds, complete your checklist, review your assigned tasks, and submit competition-ready outputs.</div>
@@ -166,12 +170,25 @@ td{font-size:14px}
 <div class="world"><div class="emoji">🌎</div><strong>Explore the Worlds</strong><span>Enter the World Map and select a training world.</span><button class="btn blue" onclick="showSection('worlds')">ENTER WORLDS →</button></div>
 <div class="world"><div class="emoji">📜</div><strong>My Tasks</strong><span>Find assigned task links and access the submission portal.</span><button class="btn green" onclick="showSection('my-tasks')">OPEN MY TASKS →</button></div>
 <div class="world"><div class="emoji">✅</div><strong>My Checklist</strong><span>Track your training preparation and earn coins.</span><button class="btn blue" onclick="showSection('checklist')">VIEW CHECKLIST →</button></div>
-<div class="world"><div class="emoji">📢</div><strong>Announcement Tab</strong><span>Read notices published through Google Sheets.</span><button class="btn blue" onclick="showSection('announcements')">VIEW ANNOUNCEMENTS →</button></div>
+<div class="world"><div class="emoji">👑</div><strong>Game Masters</strong><span>Meet the team supporting your training journey.</span><button class="btn blue" onclick="showSection('masters')">MEET THE GAME MASTERS →</button></div>
+</div>
+
+<!-- RESOURCES AT THE BOTTOM OF HOME -->
+<div class="home-resources" aria-labelledby="home-resources-title">
+<h2 id="home-resources-title">📚 RESOURCES</h2>
+<p>Find reference materials, guides, templates, and other links shared by the Game Masters.</p>
+<div class="resource-filter">
+<label for="resourceCategory"><strong>Category:</strong></label>
+<select id="resourceCategory" onchange="renderResources()"><option value="All">All Resources</option></select>
+<button class="btn blue" type="button" onclick="loadResources()">🔄 REFRESH RESOURCES</button>
+</div>
+<p id="resourcesStatus" class="feed-status" role="status" aria-live="polite">Loading resources...</p>
+<div id="resourcesList" class="resource-feed"></div>
 </div>
 </div>
 </section>
 
-<!-- WORLDS DIRECTORY -->
+<!-- WORLD SELECTION SUBPAGE -->
 <section id="worlds" class="section">
 <div class="panel">
 <div class="breadcrumb"><button onclick="showSection('home')">🏠 Home</button><span>›</span><strong>Worlds</strong></div>
@@ -371,37 +388,28 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- MY TASKS DIRECTORY -->
+<!-- MY TASKS -->
 <section id="my-tasks" class="section">
 <div class="panel">
 <div class="breadcrumb"><button onclick="showSection('home')">🏠 Home</button><span>›</span><strong>My Tasks</strong></div>
 <h2>📜 MY TASKS — MISSION HUB</h2>
-<p>Choose a subpage to view your assigned task links or submit your finished output.</p>
-<div class="notice yellow"><strong>🍄 MISSION REMINDER:</strong> Complete all assignments and submit competition-ready outputs within the required deadlines.</div>
+<p>Choose a subpage to view assigned task links or submit a finished output.</p>
+<div class="notice yellow"><strong>🍄 MISSION REMINDER:</strong> Complete assignments and submit competition-ready outputs within the required deadlines.</div>
 <div class="task-hub">
-<div class="task-card">
-<div class="emoji">📖</div><h3>MY ASSIGNMENTS</h3>
-<p>View the latest assigned tasks and access their links, updated through Google Sheets.</p>
-<button class="btn blue" onclick="showSection('task-assignments')">VIEW MY ASSIGNMENTS →</button>
-</div>
-<div class="task-card">
-<div class="emoji">📤</div><h3>SUBMISSION PORTAL</h3>
-<p>Submit your completed work using the official Google Forms submission portal.</p>
-<button class="btn green" onclick="showSection('task-submission')">SUBMIT MY OUTPUT →</button>
-</div>
+<div class="task-card"><div class="emoji">📖</div><h3>MY ASSIGNMENTS</h3><p>View published tasks and their links, updated through Google Sheets.</p><button class="btn blue" onclick="showSection('task-assignments')">VIEW MY ASSIGNMENTS →</button></div>
+<div class="task-card"><div class="emoji">📤</div><h3>SUBMISSION PORTAL</h3><p>Submit completed work through the official Google Forms portal.</p><button class="btn green" onclick="showSection('task-submission')">SUBMIT MY OUTPUT →</button></div>
 </div>
 <button class="btn blue back-button" onclick="showSection('home')">← BACK TO HOME</button>
 </div>
 </section>
 
-<!-- GOOGLE SHEETS-POWERED ASSIGNMENTS -->
+<!-- TASK ASSIGNMENTS FROM GOOGLE SHEETS -->
 <section id="task-assignments" class="section">
 <div class="panel">
 <div class="breadcrumb"><button onclick="showSection('home')">🏠 Home</button><span>›</span><button onclick="showSection('my-tasks')">📜 My Tasks</button><span>›</span><strong>Assignments</strong></div>
 <h2>📖 MY ASSIGNMENTS</h2>
-<p>Here are your official training tasks, assigned by the Game Masters.</p>
-<div class="notice yellow"><strong>📜 YOUR MISSION:</strong> Review the task instructions, open the task link, and complete the assignment before its deadline.</div>
-
+<p>Here are your published training tasks, assigned by the Game Masters.</p>
+<div class="notice yellow"><strong>📜 YOUR MISSION:</strong> Review the instructions, open the task link, and complete the assignment before its deadline.</div>
 <div class="assignment-filter">
 <label for="teamFilter"><strong>Choose your team:</strong></label>
 <select id="teamFilter" onchange="renderTaskFeed()">
@@ -409,19 +417,17 @@ td{font-size:14px}
 <option value="Online Publishing">📰 Online Publishing</option>
 <option value="Radio Broadcasting">🎙️ Radio Broadcasting</option>
 </select>
-<button class="btn blue" onclick="loadTaskFeed()">🔄 REFRESH TASKS</button>
+<button class="btn blue" type="button" onclick="loadTaskFeed()">🔄 REFRESH TASKS</button>
 </div>
-
-<p id="taskStatus" class="task-status" role="status" aria-live="polite">Loading tasks...</p>
+<p id="taskStatus" class="feed-status" role="status" aria-live="polite">Loading tasks...</p>
 <div id="taskFeed" class="task-feed"></div>
-
 <div class="notice green"><strong>⭐ OUTPUT READY?</strong> When you finish your task, proceed to the official submission portal.</div>
 <button class="btn green back-button" onclick="showSection('task-submission')">📤 SUBMIT MY OUTPUT</button>
 <button class="btn blue back-button" onclick="showSection('my-tasks')">← BACK TO MY TASKS</button>
 </div>
 </section>
 
-<!-- GOOGLE FORMS SUBMISSION -->
+<!-- SUBMISSION THROUGH GOOGLE FORMS -->
 <section id="task-submission" class="section">
 <div class="panel">
 <div class="breadcrumb"><button onclick="showSection('home')">🏠 Home</button><span>›</span><button onclick="showSection('my-tasks')">📜 My Tasks</button><span>›</span><strong>Submission Portal</strong></div>
@@ -440,16 +446,13 @@ td{font-size:14px}
 <p class="smallprint">The official Google Form opens in a new tab. Submissions are collected through Google Forms, not directly by this website.</p>
 </div>
 <div class="notice green"><strong>⭐ MISSION COMPLETE!</strong> After submitting the Google Form, check that Google's submission confirmation appears before closing the page.</div>
-<div class="notice yellow">
-<strong>IMPORTANT REMINDERS:</strong>
-<ul>
+<div class="notice yellow"><strong>IMPORTANT REMINDERS:</strong><ul>
 <li>Submit the correct URL or PDF for your assigned task.</li>
 <li>Check that your URL is accessible to the intended trainers.</li>
 <li>PDF uploads through Google Forms require Google Sign-In.</li>
 <li>Follow your trainer's deadlines and submission instructions.</li>
 <li>Do not submit sensitive personal information or passwords.</li>
-</ul>
-</div>
+</ul></div>
 <button class="btn blue back-button" onclick="showSection('task-assignments')">📖 REVIEW ASSIGNMENTS</button>
 <button class="btn blue back-button" onclick="showSection('my-tasks')">← BACK TO MY TASKS</button>
 </div>
@@ -473,49 +476,22 @@ td{font-size:14px}
 <li>Faith — The Triumphant</li>
 </ul>
 <h3>THE GAME CHANGERS</h3>
-<ul>
-<li><a href="https://www.facebook.com/chrisdenvergomez" target="_blank" rel="noopener noreferrer">Chris</a> — The Hierophant</li>
-</ul>
+<ul><li><a href="https://www.facebook.com/chrisdenvergomez" target="_blank" rel="noopener noreferrer">Chris</a> — The Hierophant</li></ul>
 </div>
 </section>
-
-<!-- ANNOUNCEMENTS -->
-<section id="announcements" class="section">
-<div class="panel">
-<h2>📢 ANNOUNCEMENT TAB</h2>
-<p>Official notices and reminders published by the Game Masters.</p>
-<div class="notice yellow"><strong>📣 STAY UPDATED!</strong> Check this page regularly for important training information.</div>
-<div class="toolbar">
-<button class="btn blue" onclick="loadAnnouncements()">🔄 REFRESH ANNOUNCEMENTS</button>
-</div>
-<p id="announcementStatus" class="announcement-status" role="status" aria-live="polite">Loading announcements...</p>
-<div id="announcementList"></div>
-<p class="smallprint">This page displays entries marked Published in the Announcements Google Sheets tab.</p>
-</div>
-</section>
-
 </main>
-
-<!-- UPDATED FOOTER -->
 <footer class="footer">
 🍄 TLN TRAINING QUEST • 2026 • Insignia of Principles, Beacon of Change ⭐
 <p>Developed by Keith Andrei A. Layson</p>
 <p>UP Office of the Vice President for Digital Transformation</p>
 </footer>
-
 </div>
 
 <script>
-/* =================================================
-   GOOGLE SHEETS CONFIGURATION
-   Both Tasks and Announcements share one spreadsheet.
-================================================= */
+/* ONE GOOGLE SHEET, THREE TABS: Announcements, Tasks, Resources. */
+const SHEET_ID = '1N25HJHN4-IwcGAuiTMGMw8YKcWTLT8kTQg2fiThpvek';
 
-const SHEET_ID='1N25HJHN4-IwcGAuiTMGMw8YKcWTLT8kTQg2fiThpvek';
-
-/* TRAINING CALENDAR */
-
-const EVENTS=[
+const EVENTS = [
 ['Nov 4','Weekly Training','5:00–6:00 PM','Training'],
 ['Nov 5','Weekly Training','5:00–6:00 PM','Training'],
 ['Nov 6','Weekly Training','5:00–6:00 PM','Training'],
@@ -544,8 +520,7 @@ const EVENTS=[
 ['Dec 10','RSPC Day 2','Competition','RSPC'],
 ['Dec 11','RSPC Day 3','Competition','RSPC']
 ];
-
-const TASKS=[
+const TASKS = [
 'I have reviewed the general training guidelines.',
 'I know whom to contact about schedule conflicts.',
 'I have checked the official training calendar.',
@@ -559,435 +534,285 @@ const TASKS=[
 'I have reviewed feedback and applied the necessary revisions.',
 'My assigned outputs are competition-ready.'
 ];
-
-/* NAVIGATION */
-
-const WORLD_PAGES=[
-'world-1','world-2','world-3','world-4','world-5','final-castle'
-];
-
-const TASK_PAGES=['task-assignments','task-submission'];
+const WORLD_PAGES = ['world-1','world-2','world-3','world-4','world-5','final-castle'];
+const TASK_PAGES = ['task-assignments','task-submission'];
 
 function showSection(id){
-const target=document.getElementById(id);
-if(!target||!target.classList.contains('section'))return;
-
-document.querySelectorAll('.section').forEach(s=>{
-s.classList.toggle('active',s.id===id);
-});
-
-let navId=id;
-if(WORLD_PAGES.includes(id))navId='worlds';
-if(TASK_PAGES.includes(id))navId='my-tasks';
-
-document.querySelectorAll('.nav button').forEach(button=>{
-const active=button.dataset.target===navId;
-button.classList.toggle('active',active);
-if(active)button.setAttribute('aria-current','page');
-else button.removeAttribute('aria-current');
-});
-
-if(id==='announcements')loadAnnouncements();
-if(id==='task-assignments')loadTaskFeed();
-
-window.scrollTo({top:0,behavior:'smooth'});
+  const target=document.getElementById(id);
+  if(!target||!target.classList.contains('section'))return;
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+  let navId=id;
+  if(WORLD_PAGES.includes(id))navId='worlds';
+  if(TASK_PAGES.includes(id))navId='my-tasks';
+  document.querySelectorAll('.nav button').forEach(button=>{
+    const active=button.dataset.target===navId;
+    button.classList.toggle('active',active);
+    if(active)button.setAttribute('aria-current','page');
+    else button.removeAttribute('aria-current');
+  });
+  if(id==='home'){
+    loadAnnouncements();
+    loadResources();
+  }
+  if(id==='task-assignments')loadTaskFeed();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
 document.querySelectorAll('.nav button').forEach(button=>{
-button.addEventListener('click',()=>showSection(button.dataset.target));
+  button.addEventListener('click',()=>showSection(button.dataset.target));
 });
-
-/* CALENDAR */
 
 function filterEvents(category){
-renderEvents(category==='all'?EVENTS:EVENTS.filter(e=>e[3]===category));
+  renderEvents(category==='all'?EVENTS:EVENTS.filter(e=>e[3]===category));
 }
-
 function renderEvents(events){
-const list=document.getElementById('eventList');
-list.replaceChildren();
-
-events.forEach(e=>{
-const row=document.createElement('div');
-row.className='event';
-
-const date=document.createElement('div');
-date.className='event-date';
-
-const parts=e[0].split(' ');
-const day=document.createElement('b');
-day.textContent=parts.slice(1).join(' ');
-const month=document.createElement('span');
-month.textContent=parts[0];
-
-date.append(day,month);
-
-const info=document.createElement('div');
-const name=document.createElement('div');
-name.className='event-name';
-name.textContent=e[1];
-
-const meta=document.createElement('div');
-meta.className='event-meta';
-meta.textContent=e[2];
-info.append(name,meta);
-
-const pill=document.createElement('span');
-pill.className='pill';
-pill.textContent=e[3];
-
-row.append(date,info,pill);
-list.appendChild(row);
-});
+  const list=document.getElementById('eventList');
+  list.replaceChildren();
+  events.forEach(e=>{
+    const row=document.createElement('div');row.className='event';
+    const date=document.createElement('div');date.className='event-date';
+    const parts=e[0].split(' ');
+    const day=document.createElement('b');day.textContent=parts.slice(1).join(' ');
+    const month=document.createElement('span');month.textContent=parts[0];date.append(day,month);
+    const info=document.createElement('div');
+    const name=document.createElement('div');name.className='event-name';name.textContent=e[1];
+    const meta=document.createElement('div');meta.className='event-meta';meta.textContent=e[2];
+    info.append(name,meta);
+    const pill=document.createElement('span');pill.className='pill';pill.textContent=e[3];
+    row.append(date,info,pill);list.appendChild(row);
+  });
 }
-
-/* CHECKLIST */
-
 function getChecks(){
-try{
-return JSON.parse(localStorage.getItem('tlnQuestChecks')||'{}');
-}catch(error){return {};}
+  try{return JSON.parse(localStorage.getItem('tlnQuestChecks')||'{}');}
+  catch(error){return {};}
 }
-
 function saveChecks(data){
-try{
-localStorage.setItem('tlnQuestChecks',JSON.stringify(data));
-}catch(error){console.warn('Checklist not saved.',error);}
+  try{localStorage.setItem('tlnQuestChecks',JSON.stringify(data));}
+  catch(error){console.warn('Checklist not saved.',error);}
 }
-
 function renderChecklist(){
-const data=getChecks();
-const container=document.getElementById('checklistItems');
-container.replaceChildren();
-
-TASKS.forEach((task,index)=>{
-const label=document.createElement('label');
-label.className='check'+(data[index]?' done':'');
-
-const checkbox=document.createElement('input');
-checkbox.type='checkbox';
-checkbox.checked=!!data[index];
-
-const text=document.createElement('span');
-text.textContent=task;
-
-checkbox.addEventListener('change',()=>{
-const checks=getChecks();
-checks[index]=checkbox.checked;
-saveChecks(checks);
-renderChecklist();
-});
-
-label.append(checkbox,text);
-container.appendChild(label);
-});
-
-const count=TASKS.filter((_,i)=>!!data[i]).length;
-document.getElementById('coinCount').textContent=count;
-document.getElementById('progressText').textContent=count+' of '+TASKS.length+' completed';
-document.getElementById('progressBar').style.width=(count/TASKS.length*100)+'%';
+  const data=getChecks();const container=document.getElementById('checklistItems');
+  container.replaceChildren();
+  TASKS.forEach((task,index)=>{
+    const label=document.createElement('label');label.className='check'+(data[index]?' done':'');
+    const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!data[index];
+    const text=document.createElement('span');text.textContent=task;
+    checkbox.addEventListener('change',()=>{
+      const checks=getChecks();checks[index]=checkbox.checked;saveChecks(checks);renderChecklist();
+    });
+    label.append(checkbox,text);container.appendChild(label);
+  });
+  const count=TASKS.filter((_,i)=>!!data[i]).length;
+  document.getElementById('coinCount').textContent=count;
+  document.getElementById('progressText').textContent=count+' of '+TASKS.length+' completed';
+  document.getElementById('progressBar').style.width=(count/TASKS.length*100)+'%';
 }
-
 function resetChecklist(){
-if(confirm('Reset all checklist progress on this browser?')){
-try{localStorage.removeItem('tlnQuestChecks');}catch(error){}
-renderChecklist();
+  if(confirm('Reset all checklist progress on this browser?')){
+    try{localStorage.removeItem('tlnQuestChecks');}catch(error){}
+    renderChecklist();
+  }
 }
-}
 
-/* =================================================
-   GOOGLE SHEETS PUBLIC DATA READER
-
-   Uses Google's Visualization API JSONP callback.
-   Only read-only public data is requested.
-================================================= */
-
+/* PUBLIC READ-ONLY GOOGLE SHEETS VISUALIZATION API */
 const sheetRequests={};
 let sheetRequestCounter=0;
-
 function readSheet(tabName,onSuccess,onError){
-if(sheetRequests[tabName]){
-sheetRequests[tabName].cancel();
+  if(sheetRequests[tabName])sheetRequests[tabName].cancel();
+  const requestId=++sheetRequestCounter;
+  const callbackName='tlnSheetCallback'+requestId;
+  const script=document.createElement('script');
+  let finished=false;
+  let timer;
+  function cleanup(){
+    if(finished)return false;
+    finished=true;
+    clearTimeout(timer);
+    delete window[callbackName];
+    script.remove();
+    if(sheetRequests[tabName]?.id===requestId)delete sheetRequests[tabName];
+    return true;
+  }
+  sheetRequests[tabName]={id:requestId,cancel:cleanup};
+  window[callbackName]=function(response){
+    if(!cleanup())return;
+    if(!response||response.status!=='ok'||!response.table){onError();return;}
+    const rows=(response.table.rows||[]).map(row=>(row.c||[]).map(cell=>{
+      if(!cell)return '';
+      if(cell.f!=null)return String(cell.f);
+      return cell.v==null?'':String(cell.v);
+    }));
+    onSuccess(rows);
+  };
+  script.onerror=function(){if(cleanup())onError();};
+  timer=setTimeout(()=>{if(cleanup())onError();},15000);
+  const params=new URLSearchParams({
+    sheet:tabName,headers:'1',
+    tqx:'out:json;responseHandler:'+callbackName,
+    v:String(Date.now())
+  });
+  script.src='https://docs.google.com/spreadsheets/d/'+encodeURIComponent(SHEET_ID)+'/gviz/tq?'+params.toString();
+  document.head.appendChild(script);
 }
-
-const requestId=++sheetRequestCounter;
-const callbackName='tlnSheetCallback'+requestId;
-const script=document.createElement('script');
-let finished=false;
-
-function cleanup(){
-if(finished)return false;
-finished=true;
-clearTimeout(timer);
-delete window[callbackName];
-script.remove();
-if(sheetRequests[tabName]?.id===requestId){
-delete sheetRequests[tabName];
-}
-return true;
-}
-
-sheetRequests[tabName]={id:requestId,cancel:cleanup};
-
-window[callbackName]=function(response){
-if(!cleanup())return;
-if(!response||response.status!=='ok'||!response.table){
-onError();
-return;
-}
-const rows=(response.table.rows||[]).map(row=>{
-return(row.c||[]).map(cell=>{
-if(!cell)return '';
-if(cell.f!=null)return String(cell.f);
-return cell.v==null?'':String(cell.v);
-});
-});
-onSuccess(rows);
-};
-
-script.onerror=function(){
-if(cleanup())onError();
-};
-
-const timer=setTimeout(()=>{
-if(cleanup())onError();
-},15000);
-
-const params=new URLSearchParams({
-sheet:tabName,
-headers:'1',
-tqx:'out:json;responseHandler:'+callbackName,
-v:String(Date.now())
-});
-
-script.src='https://docs.google.com/spreadsheets/d/'+
-encodeURIComponent(SHEET_ID)+'/gviz/tq?'+params.toString();
-
-document.head.appendChild(script);
-}
-
-/* FORMAT DATES AS ENTERED IN THE SHEET */
-
 function dateSortValue(text){
-const s=String(text||'').trim();
-if(!s)return 0;
-const time=Date.parse(s);
-return Number.isNaN(time)?0:time;
+  const time=Date.parse(String(text||'').trim());
+  return Number.isNaN(time)?0:time;
 }
-
 function displayDate(text){
-const s=String(text||'').trim();
-if(!s)return '';
-if(/^\d{4}-\d{2}-\d{2}$/.test(s)){
-const d=new Date(s+'T12:00:00Z');
-return d.toLocaleDateString('en-US',{
-year:'numeric',month:'long',day:'numeric',timeZone:'UTC'
-});
+  const str=String(text||'').trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str)){
+    return new Date(str+'T12:00:00Z').toLocaleDateString('en-US',{
+      year:'numeric',month:'long',day:'numeric',timeZone:'UTC'
+    });
+  }
+  return str;
 }
-return s;
-}
-
 function createText(tag,text,className){
-const el=document.createElement(tag);
-if(className)el.className=className;
-el.textContent=text;
-return el;
+  const el=document.createElement(tag);
+  if(className)el.className=className;
+  el.textContent=text;
+  return el;
 }
-
 function showFeedMessage(containerId,text){
-const container=document.getElementById(containerId);
-container.replaceChildren();
-container.appendChild(createText('div',text,'empty-state'));
+  const container=document.getElementById(containerId);container.replaceChildren();
+  container.appendChild(createText('div',text,'empty-state'));
 }
-
-/* =================================================
-   TASK FEED
-   Tasks worksheet:
-   A Posted Date
-   B Team
-   C Assigned To
-   D Task Title
-   E Instructions
-   F Task Link
-   G Deadline
-   H Status
-================================================= */
-
-let publishedTasks=[];
-
-function loadTaskFeed(){
-document.getElementById('taskStatus').textContent='🔄 Loading latest assignments...';
-
-readSheet('Tasks',rows=>{
-publishedTasks=rows.map((r,index)=>({
-posted:r[0]||'',
-team:r[1]||'All',
-assignedTo:r[2]||'All Players',
-title:r[3]||'',
-instructions:r[4]||'',
-link:r[5]||'',
-deadline:r[6]||'',
-status:r[7]||'',
-index
-})).filter(t=>
-t.status.trim().toLowerCase()==='published'&&t.title.trim()
-);
-
-publishedTasks.sort((a,b)=>
-dateSortValue(b.posted)-dateSortValue(a.posted)||
-b.index-a.index
-);
-
-renderTaskFeed();
-},()=>{
-document.getElementById('taskStatus').textContent='⚠️ Could not load tasks.';
-showFeedMessage('taskFeed','Unable to read the Tasks sheet. Check Google Sheets access and press Refresh Tasks.');
-});
-}
-
 function safeHttpUrl(raw){
-try{
-const u=new URL(String(raw).trim());
-return ['https:','http:'].includes(u.protocol)?u.href:null;
-}catch(error){return null;}
+  try{
+    const u=new URL(String(raw).trim());
+    return u.protocol==='https:'||u.protocol==='http:'?u.href:null;
+  }catch(error){return null;}
+}
+function makeResourceLink(url,text){
+  const validated=safeHttpUrl(url);
+  if(!validated)return null;
+  const a=document.createElement('a');a.className='btn blue';
+  a.href=validated;a.target='_blank';a.rel='noopener noreferrer';a.textContent=text;
+  return a;
 }
 
+/* TASKS TAB: Date, Team, Assigned To, Title, Instructions, Link, Deadline, Status */
+let publishedTasks=[];
+function loadTaskFeed(){
+  document.getElementById('taskStatus').textContent='🔄 Loading latest assignments...';
+  readSheet('Tasks',rows=>{
+    publishedTasks=rows.map((r,index)=>({
+      posted:r[0]||'',team:r[1]||'All',assignedTo:r[2]||'All Players',
+      title:r[3]||'',instructions:r[4]||'',link:r[5]||'',
+      deadline:r[6]||'',status:r[7]||'',index
+    })).filter(t=>t.status.trim().toLowerCase()==='published'&&t.title.trim());
+    publishedTasks.sort((a,b)=>dateSortValue(b.posted)-dateSortValue(a.posted)||b.index-a.index);
+    renderTaskFeed();
+  },()=>{
+    document.getElementById('taskStatus').textContent='⚠️ Could not load tasks.';
+    showFeedMessage('taskFeed','Unable to read the Tasks sheet. Check Google Sheets access and press Refresh Tasks.');
+  });
+}
 function renderTaskFeed(){
-const container=document.getElementById('taskFeed');
-container.replaceChildren();
-
-const selected=document.getElementById('teamFilter').value;
-
-const tasks=publishedTasks.filter(t=>{
-const team=t.team.trim().toLowerCase();
-return selected==='All'||team==='all'||team==='all teams'||team==='both'||team===selected.toLowerCase();
-});
-
-document.getElementById('taskStatus').textContent=
-'✅ '+tasks.length+' published task'+(tasks.length===1?'':'s')+' available';
-
-if(!tasks.length){
-showFeedMessage('taskFeed','📭 No published tasks for the selected team.');
-return;
+  const container=document.getElementById('taskFeed');container.replaceChildren();
+  const selected=document.getElementById('teamFilter').value;
+  const tasks=publishedTasks.filter(t=>{
+    const team=t.team.trim().toLowerCase();
+    return selected==='All'||['all','all teams','both'].includes(team)||team===selected.toLowerCase();
+  });
+  document.getElementById('taskStatus').textContent='✅ '+tasks.length+' published task'+(tasks.length===1?'':'s')+' available';
+  if(!tasks.length){showFeedMessage('taskFeed','📭 No published tasks for the selected team.');return;}
+  tasks.forEach(t=>{
+    const card=document.createElement('article');card.className='assigned-task';
+    const header=document.createElement('div');header.className='assigned-task-header';
+    header.append(createText('span',t.team,'announcement-tag'),createText('span',displayDate(t.posted),'announcement-date'));
+    const labels=document.createElement('div');labels.className='assignment-labels';
+    labels.appendChild(createText('span','👤 '+t.assignedTo,'pill'));
+    if(t.deadline.trim())labels.appendChild(createText('span','⏰ Due: '+displayDate(t.deadline),'pill'));
+    card.append(header,createText('h3',t.title),labels);
+    if(t.instructions.trim())card.appendChild(createText('p',t.instructions));
+    const link=makeResourceLink(t.link,'📖 OPEN TASK LINK ↗');
+    if(link)card.appendChild(link);
+    else card.appendChild(createText('p','No valid task link provided.','smallprint'));
+    container.appendChild(card);
+  });
 }
 
-tasks.forEach(t=>{
-const card=document.createElement('article');
-card.className='assigned-task';
-
-const header=document.createElement('div');
-header.className='assigned-task-header';
-header.append(
-createText('span',t.team,'announcement-tag'),
-createText('span',displayDate(t.posted),'announcement-date')
-);
-
-const title=createText('h3',t.title);
-const labels=document.createElement('div');
-labels.className='assignment-labels';
-labels.appendChild(createText('span','👤 '+t.assignedTo,'pill'));
-
-if(t.deadline.trim()){
-labels.appendChild(createText('span','⏰ Due: '+displayDate(t.deadline),'pill'));
-}
-
-card.append(header,title,labels);
-
-if(t.instructions.trim()){
-card.appendChild(createText('p',t.instructions));
-}
-
-const url=safeHttpUrl(t.link);
-
-if(url){
-const link=document.createElement('a');
-link.className='btn blue';
-link.href=url;
-link.target='_blank';
-link.rel='noopener noreferrer';
-link.textContent='📖 OPEN TASK LINK ↗';
-card.appendChild(link);
-}else{
-card.appendChild(createText('p','No valid task link provided.','smallprint'));
-}
-
-container.appendChild(card);
-});
-}
-
-/* =================================================
-   ANNOUNCEMENTS
-   A Date
-   B Category
-   C Title
-   D Announcement
-   E Status
-================================================= */
-
+/* ANNOUNCEMENTS TAB: Date, Category, Title, Announcement, Status */
 function loadAnnouncements(){
-document.getElementById('announcementStatus').textContent='🔄 Loading announcements...';
-
-readSheet('Announcements',rows=>{
-const announcements=rows.map((r,index)=>({
-date:r[0]||'',
-category:r[1]||'ANNOUNCEMENT',
-title:r[2]||'',
-message:r[3]||'',
-status:r[4]||'',
-index
-})).filter(a=>
-a.status.trim().toLowerCase()==='published'&&a.title.trim()
-);
-
-announcements.sort((a,b)=>
-dateSortValue(b.date)-dateSortValue(a.date)||
-b.index-a.index
-);
-
-renderAnnouncements(announcements);
-},()=>{
-document.getElementById('announcementStatus').textContent='⚠️ Connection unavailable.';
-showFeedMessage('announcementList','Unable to load announcements. Check the spreadsheet sharing permissions.');
-});
+  document.getElementById('announcementStatus').textContent='🔄 Loading announcements...';
+  readSheet('Announcements',rows=>{
+    const announcements=rows.map((r,index)=>({
+      date:r[0]||'',category:r[1]||'ANNOUNCEMENT',title:r[2]||'',
+      message:r[3]||'',status:r[4]||'',index
+    })).filter(a=>a.status.trim().toLowerCase()==='published'&&a.title.trim());
+    announcements.sort((a,b)=>dateSortValue(b.date)-dateSortValue(a.date)||b.index-a.index);
+    renderAnnouncements(announcements);
+  },()=>{
+    document.getElementById('announcementStatus').textContent='⚠️ Announcements unavailable.';
+    showFeedMessage('announcementList','Unable to load announcements. Check the spreadsheet sharing permissions.');
+  });
 }
-
 function renderAnnouncements(items){
-const container=document.getElementById('announcementList');
-container.replaceChildren();
-
-document.getElementById('announcementStatus').textContent=
-'✅ '+items.length+' published announcement'+(items.length===1?'':'s')+' loaded';
-
-if(!items.length){
-showFeedMessage('announcementList','📭 No published announcements at this time.');
-return;
+  const container=document.getElementById('announcementList');container.replaceChildren();
+  document.getElementById('announcementStatus').textContent='✅ '+items.length+' published announcement'+(items.length===1?'':'s')+' loaded';
+  if(!items.length){showFeedMessage('announcementList','📭 No published announcements at this time.');return;}
+  items.forEach(item=>{
+    const card=document.createElement('article');card.className='announcement';
+    const header=document.createElement('div');header.className='announcement-header';
+    header.append(createText('span',item.category,'announcement-tag'),createText('span',displayDate(item.date),'announcement-date'));
+    card.append(header,createText('h3',item.title),createText('p',item.message));
+    container.appendChild(card);
+  });
 }
 
-items.forEach(item=>{
-const card=document.createElement('article');
-card.className='announcement';
-
-const header=document.createElement('div');
-header.className='announcement-header';
-header.append(
-createText('span',item.category,'announcement-tag'),
-createText('span',displayDate(item.date),'announcement-date')
-);
-
-card.append(
-header,
-createText('h3',item.title),
-createText('p',item.message)
-);
-
-container.appendChild(card);
-});
+/* RESOURCES TAB: Date, Category, Title, Description, Link, Status */
+let publishedResources=[];
+function loadResources(){
+  document.getElementById('resourcesStatus').textContent='🔄 Loading resources...';
+  readSheet('Resources',rows=>{
+    publishedResources=rows.map((r,index)=>({
+      posted:r[0]||'',category:r[1]||'Reference',title:r[2]||'',
+      description:r[3]||'',link:r[4]||'',status:r[5]||'',index
+    })).filter(r=>r.status.trim().toLowerCase()==='published'&&r.title.trim());
+    publishedResources.sort((a,b)=>dateSortValue(b.posted)-dateSortValue(a.posted)||b.index-a.index);
+    updateResourceCategories();
+    renderResources();
+  },()=>{
+    document.getElementById('resourcesStatus').textContent='⚠️ Resources unavailable.';
+    showFeedMessage('resourcesList','Unable to load resources. Check the spreadsheet sharing permissions.');
+  });
+}
+function updateResourceCategories(){
+  const select=document.getElementById('resourceCategory');
+  const previous=select.value;
+  select.replaceChildren();
+  const all=document.createElement('option');all.value='All';all.textContent='All Resources';select.appendChild(all);
+  const categories=[...new Set(publishedResources.map(r=>r.category.trim()).filter(Boolean))].sort();
+  categories.forEach(category=>{
+    const option=document.createElement('option');option.value=category;option.textContent=category;
+    select.appendChild(option);
+  });
+  if(categories.includes(previous))select.value=previous;
+}
+function renderResources(){
+  const container=document.getElementById('resourcesList');container.replaceChildren();
+  const selected=document.getElementById('resourceCategory').value;
+  const resources=publishedResources.filter(r=>selected==='All'||r.category===selected);
+  document.getElementById('resourcesStatus').textContent='✅ '+resources.length+' resource'+(resources.length===1?'':'s')+' available';
+  if(!resources.length){showFeedMessage('resourcesList','📭 No published resources for this category.');return;}
+  resources.forEach(r=>{
+    const card=document.createElement('article');card.className='resource-card';
+    const header=document.createElement('div');header.className='resource-header';
+    header.append(createText('span',r.category,'announcement-tag'),createText('span',displayDate(r.posted),'announcement-date'));
+    card.append(header,createText('h3',r.title));
+    if(r.description.trim())card.appendChild(createText('p',r.description));
+    const link=makeResourceLink(r.link,'📚 OPEN RESOURCE ↗');
+    if(link)card.appendChild(link);
+    else card.appendChild(createText('p','No valid resource link provided.','smallprint'));
+    container.appendChild(card);
+  });
 }
 
-/* INITIALIZATION */
+/* INITIALIZE THE HOME FEEDS ON FIRST VISIT */
 renderEvents(EVENTS);
 renderChecklist();
+loadAnnouncements();
+loadResources();
 </script>
-
 </body>
 </html>
