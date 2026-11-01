@@ -754,18 +754,7 @@ document.getElementById('signOutButton')
 window.addEventListener('load', initQuestSignIn);
 
 
-    function handleGoogleCredential(response) {
-      // Browser-side sign-in is NOT server-side authorization.
-      if (!response || !response.credential) return;
-
-      document.getElementById('authStatus').textContent =
-        'Google sign-in received. Server-side account verification is not connected yet; submissions remain locked.';
-
-      document.getElementById('signOutButton').classList.remove('hidden');
-
-      // Do not unlock submissions until the backend verifies
-      // the token and checks the approved Player Registry.
-    }
+   
 
     function initQuestSignIn() {
       if (!window.google || !google.accounts || !google.accounts.id) {
