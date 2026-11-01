@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TLN Training Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky:#68cef3; --sky-deep:#229dcc; --red:#ed443b; --yellow:#ffd044;
+      --green:#48a957; --grass:#8bd35a; --brown:#94552f; --ink:#26384b;
+      --cream:#fff9e9; --white:#fff; --muted:#657487; --line:#e6dfcc;
+      --shadow:0 7px 0 rgba(38,56,75,.16); --pixel:3px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; color:var(--ink); font-family:'Nunito',sans-serif; font-weight:700;
+      background:linear-gradient(var(--sky) 0 280px,#bcecff 280px 390px,#eaf8dc 390px 100%);
+      min-height:100vh;
+    }
+    button { font:inherit; cursor:pointer; }
+    .clouds { position:absolute; top:20px; left:0; right:0; height:160px; overflow:hidden; pointer-events:none; opacity:.72; font-size:44px; letter-spacing:30px; white-space:nowrap; }
+    .wrap { max-width:1180px; margin:auto; padding:24px 20px 55px; position:relative; }
+    .hero {
+      text-align:center; padding:35px 20px 28px; position:relative;
+      background:rgba(255,255,255,.2); border:4px solid rgba(255,255,255,.65);
+      border-radius:8px; box-shadow:0 8px 0 rgba(28,115,155,.13);
+    }
+    .tag { display:inline-block; background:var(--red); color:white; padding:10px 14px; border:3px solid var(--ink); box-shadow:4px 4px 0 var(--ink); font-size:11px; letter-spacing:1px; }
+    h1 { font:clamp(25px,5vw,43px)/1.35 'Press Start 2P',monospace; margin:25px 0 12px; color:#fff; text-shadow:4px 4px 0 var(--red),7px 7px 0 var(--ink); }
+    .hero .subtitle { font:12px 'Press Start 2P',monospace; color:#fff; text-shadow:2px 2px var(--ink); margin:18px 0; }
+    .hero p { max-width:700px; margin:12px auto; font-size:17px; color:#173e58; }
+    .pixel-row { font-size:28px; letter-spacing:8px; margin-top:18px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:22px 0; }
+    .player { display:flex; align-items:center; gap:12px; background:var(--cream); padding:10px 15px; border:3px solid var(--ink); box-shadow:var(--shadow); }
+    .avatar { font-size:27px; }
+    .player small { display:block; color:var(--muted); font-weight:900; }
+    .coins { background:var(--yellow); padding:9px 13px; border:3px solid var(--ink); box-shadow:3px 3px 0 var(--ink); }
+    .nav { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0 25px; }
+    .nav button,.btn {
+      border:3px solid var(--ink); background:var(--yellow); color:var(--ink);
+      padding:11px 13px; box-shadow:3px 3px 0 var(--ink); font-weight:900;
+      border-radius:4px; transition:transform .12s,box-shadow .12s;
+    }
+    .nav button:hover,.btn:hover { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+    .nav button.active { background:var(--red); color:white; }
+    .btn.red { background:var(--red); color:white; }
+    .btn.green { background:var(--green); color:white; }
+    .btn.blue { background:#dff5ff; }
+    main { display:grid; grid-template-columns:1fr; gap:18px; }
+    .panel {
+      background:var(--cream); border:4px solid var(--ink); border-radius:6px;
+      box-shadow:var(--shadow); padding:22px; min-width:0;
+    }
+    .panel h2 { font:15px/1.7 'Press Start 2P',monospace; margin:0 0 17px; color:var(--red); }
+    .panel h3 { margin:18px 0 8px; font-size:18px; }
+    .panel p { line-height:1.6; margin:8px 0; }
+    .muted { color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .world {
+      background:white; border:3px solid var(--ink); padding:17px; box-shadow:4px 4px 0 #d8c9a6;
+      display:flex; flex-direction:column; gap:8px; min-height:145px;
+    }
+    .world .emoji { font-size:31px; }
+    .world strong { font-size:17px; }
+    .world span { color:var(--muted); font-size:14px; line-height:1.4; }
+    .world button { align-self:flex-start; margin-top:auto; }
+    .notice { border-left:7px solid var(--red); background:#fff0e9; padding:13px 15px; margin:13px 0; }
+    .notice.yellow { border-color:#e8b400; background:#fff6d7; }
+    .notice.green { border-color:var(--green); background:#eaf8e8; }
+    ul { padding-left:22px; line-height:1.65; }
+    li { margin:5px 0; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:620px; background:white; }
+    th,td { text-align:left; vertical-align:top; border:2px solid var(--line); padding:10px; line-height:1.45; }
+    th { background:#dff4ff; font-size:13px; }
+    td { font-size:14px; }
+    .pill { display:inline-block; border:2px solid var(--ink); padding:3px 8px; font-size:11px; background:#fff1b9; border-radius:3px; white-space:nowrap; }
+    .event-list { display:grid; gap:10px; }
+    .event { display:grid; grid-template-columns:90px 1fr auto; gap:12px; align-items:center; padding:12px; border:2px solid var(--ink); background:#fff; }
+    .event-date { background:var(--yellow); border:2px solid var(--ink); padding:8px; text-align:center; font-weight:900; }
+    .event-date b { display:block; font-size:21px; }
+    .event-name { font-weight:900; }
+    .event-meta { color:var(--muted); font-size:13px; margin-top:3px; }
+    .checklist { display:grid; gap:9px; }
+    .check { display:flex; align-items:flex-start; gap:10px; padding:10px; background:white; border:2px solid var(--line); }
+    .check input { width:19px; height:19px; accent-color:var(--green); margin-top:2px; }
+    .check.done span { text-decoration:line-through; color:#83909c; }
+    .progress { height:17px; border:3px solid var(--ink); background:white; margin:12px 0; }
+    .progress > div { height:100%; width:0; background:var(--green); transition:width .2s; }
+    .timeline { display:grid; gap:10px; }
+    .step { display:grid; grid-template-columns:42px 1fr; gap:12px; align-items:start; }
+    .step-num { background:var(--yellow); border:3px solid var(--ink); width:40px; height:40px; display:grid; place-items:center; box-shadow:3px 3px 0 var(--ink); }
+    .step-content { background:white; border:2px solid var(--line); padding:11px 13px; }
+    .step-content strong { display:block; }
+    .footer { text-align:center; color:#31536a; padding:25px 10px 0; font-size:13px; }
+    .hidden { display:none !important; }
+    .section { display:none; }
+    .section.active { display:block; }
+    .smallprint { font-size:12px; color:var(--muted); }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+    .calendar-link { text-decoration:none; display:inline-block; }
+    @media(max-width:700px) {
+      .wrap { padding:12px 12px 35px; }
+      .hero { padding:26px 12px; }
+      .grid { grid-template-columns:1fr; }
+      .event { grid-template-columns:72px 1fr; }
+      .event .pill { grid-column:2; justify-self:start; }
+      .panel { padding:17px; }
+      .panel h2 { font-size:12px; }
+      .nav button { flex:1 1 42%; }
+      .pixel-row { font-size:21px; letter-spacing:2px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="clouds">☁️　☁️　　 ☁️　☁️　　☁️</div>
+  <div class="wrap">
+    <header class="hero">
+      <span class="tag">🍄 TLN TRAINING • 2026</span>
+      <h1>THE TRAINING QUEST</h1>
+      <div class="subtitle">⭐ READY, SET, COMPETE! ⭐</div>
+      <p>Welcome, Player! Your mission is to prepare, improve, collaborate, and conquer the competition.</p>
+      <div class="pixel-row">☁️　🪙　🍄　🧱　⭐　🪙　☁️</div>
+    </header>
+
+    <div class="topbar">
+      <div class="player"><span class="avatar">🧑‍🚀</span><div><strong>PLAYER 1</strong><small>TLN TRAINING MEMBER</small></div></div>
+      <div class="coins">🪙 COINS: <strong id="coinCount">0</strong></div>
+    </div>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button class="active" data-target="home">🏠 Home</button>
+      <button data-target="rules">🧭 World 1: Rules</button>
+      <button data-target="outputs">🛠️ World 2: Outputs</button>
+      <button data-target="timeline">⏱️ World 3: Time</button>
+      <button data-target="calendar">🗺️ World 4: Map</button>
+      <button data-target="activities">🎯 World 5: Training</button>
+      <button data-target="final">🏰 Final Castle</button>
+      <button data-target="checklist">✅ My Checklist</button>
+      <button data-target="masters">👑 Game Masters</button>
+    </nav>
+
+    <main>
+      <section id="home" class="section active">
+        <div class="panel">
+          <h2>WELCOME TO THE TRAINING QUEST</h2>
+          <p>This portal organizes the TLN training guidelines, output requirements, production timelines, activities, and November–December 2026 schedule in one place.</p>
+          <div class="notice yellow"><strong>MISSION REMINDER:</strong> The official training calendar is the primary reference. Check it regularly for updates and follow the instructions for each activity.</div>
+          <h3>Choose your world</h3>
+          <div class="grid">
+            <div class="world"><div class="emoji">🧭</div><strong>World 1: The Rules Kingdom</strong><span>Attendance, communication, accountability, and training expectations.</span><button class="btn blue" onclick="showSection('rules')">Enter World 1 →</button></div>
+            <div class="world"><div class="emoji">🛠️</div><strong>World 2: The Output Factory</strong><span>Online Publishing and Radio Broadcasting requirements.</span><button class="btn blue" onclick="showSection('outputs')">Enter World 2 →</button></div>
+            <div class="world"><div class="emoji">⏱️</div><strong>World 3: The Time Challenge</strong><span>Radio Broadcasting production sequence and deadlines.</span><button class="btn blue" onclick="showSection('timeline')">Enter World 3 →</button></div>
+            <div class="world"><div class="emoji">🗺️</div><strong>World 4: The Training Map</strong><span>Training calendar from November to December 2026.</span><button class="btn blue" onclick="showSection('calendar')">Enter World 4 →</button></div>
+            <div class="world"><div class="emoji">🎯</div><strong>World 5: The Practice Arena</strong><span>Weekly training, press conferences, critiquing, learning, and alignment.</span><button class="btn blue" onclick="showSection('activities')">Enter World 5 →</button></div>
+            <div class="world"><div class="emoji">🏰</div><strong>Final Castle: RSPC 2026</strong><span>Final competition dates and preparation reminders.</span><button class="btn red" onclick="showSection('final')">Enter Final Castle →</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rules" class="section">
+        <div class="panel">
+          <h2>WORLD 1: THE RULES KINGDOM</h2>
+          <h3>General training guidelines</h3>
+          <ul>
+            <li>Follow the strict training schedule and the official training calendar.</li>
+            <li>If you have a conflict, communicate with Ms. Casuga first.</li>
+            <li>Clarifications and concerns must be raised immediately. Do not make assumptions.</li>
+            <li>Monitor the calendar for changes and announcements.</li>
+            <li>Use Discord for daily emergency briefings.</li>
+            <li>After training, head home immediately and remain reachable.</li>
+          </ul>
+          <h3>Attendance and allowable exceptions</h3>
+          <div class="notice yellow">The general guidelines identify non-negotiable academic commitments as the basis for the stated attendance exceptions. Coordinate the conflict with Ms. Casuga first.</div>
+          <ul>
+            <li><strong>Online Publishing:</strong> Training may proceed if 2–3 members are unavailable for a maximum of 2 hours; the deadline will be adjusted.</li>
+            <li><strong>Radio Broadcasting:</strong> Training may proceed under the same conditions, but only one output will be presented/recorded.</li>
+            <li>If several members are unavailable or the absence exceeds the allowable period, the session will not proceed.</li>
+            <li>Outside the stated exceptions, all members are expected to attend.</li>
+          </ul>
+          <h3>Important: Saturday Press Conference attendance rules</h3>
+          <div class="notice">The source document states separate rules for the official Saturday Press Conference simulation. These are shown separately here and are not merged with the general training exceptions above.</div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Team</th><th>Number absent</th><th>What happens</th></tr></thead>
+            <tbody>
+              <tr><td>Radio Broadcasting</td><td>1 member</td><td>The official simulation does not proceed. Scriptwriting may continue, and the absent member must still submit.</td></tr>
+              <tr><td>Radio Broadcasting</td><td>2–3 members</td><td>No training/simulation.</td></tr>
+              <tr><td>Online Publishing</td><td>1 member</td><td>Training may proceed if outputs can still be produced.</td></tr>
+              <tr><td>Online Publishing</td><td>2–3 members</td><td>No training/simulation.</td></tr>
+            </tbody>
+          </table></div>
+          <div class="notice yellow"><strong>Strict reminder from the source:</strong> If 2–3 members are absent from either team, the scheduled training/simulation is cancelled. Follow the applicable instruction for the specific activity and clarify any uncertainty with the trainer.</div>
+          <h3>Communication and accountability</h3>
+          <ul>
+            <li>Raise questions and concerns immediately.</li>
+            <li>Do not assume that a deadline, attendance exception, or arrangement has been approved unless communicated.</li>
+            <li>Stay reachable for official updates and emergency briefings.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="outputs" class="section">
+        <div class="panel">
+          <h2>WORLD 2: THE OUTPUT FACTORY</h2>
+          <div class="grid">
+            <div class="world">
+              <div class="emoji">📰</div><strong>Online Publishing</strong>
+              <p>Required outputs and production rules</p>
+              <ul>
+                <li>Use the WordPress link only.</li>
+                <li>Document written outputs and graphics.</li>
+                <li>The production clock starts upon accessing/requesting the materials.</li>
+                <li>Ms. Casuga informs the lead once production is completed.</li>
+                <li>Do not publicly publish or share the link.</li>
+              </ul>
+            </div>
+            <div class="world">
+              <div class="emoji">🎙️</div><strong>Radio Broadcasting</strong>
+              <p>Required outputs and production rules</p>
+              <ul>
+                <li>A 5-minute radio run recording.</li>
+                <li>A finalized, error-free PDF script.</li>
+                <li>The production clock starts upon accessing/requesting the materials.</li>
+                <li>Follow the stated production, printing, and practice sequence.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="notice yellow"><strong>Remember:</strong> Do not publicly publish or share the Online Publishing link. Keep outputs within the intended training process.</div>
+          <h3>Output readiness check</h3>
+          <ul>
+            <li>Confirm that the correct materials have been accessed/requested.</li>
+            <li>Observe the production clock and the applicable deadline.</li>
+            <li>Check written outputs, graphics, and scripts for completeness and errors.</li>
+            <li>Submit or present outputs only as instructed by the trainer/lead.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="timeline" class="section">
+        <div class="panel">
+          <h2>WORLD 3: THE TIME CHALLENGE</h2>
+          <p>Radio Broadcasting production sequence stated in the source document:</p>
+          <div class="timeline">
+            <div class="step"><div class="step-num">1</div><div class="step-content"><strong>1 hour — Output production</strong><span class="muted">Prepare the required output.</span></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-content"><strong>30 minutes — Script printing</strong><span class="muted">Prepare the finalized script for printing.</span></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-content"><strong>30 minutes — Group practice</strong><span class="muted">Practice as a group.</span></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Ready-to-record notification</strong><span class="muted">After 2 hours, Ms. Dela Cruz informs the lead that the group is ready to record.</span></div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-content"><strong>6–7 minutes — Final submission window</strong><span class="muted">Submit within 6–7 minutes after notification.</span></div></div>
+          </div>
+          <h3>Example timing from the source</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Time</th><th>Activity / milestone</th></tr></thead>
+            <tbody>
+              <tr><td>9:28 AM</td><td>Production starts</td></tr>
+              <tr><td>10:28 AM</td><td>Output production ends</td></tr>
+              <tr><td>10:58 AM</td><td>Script printing ends</td></tr>
+              <tr><td>11:28 AM</td><td>Group practice ends / ready notification</td></tr>
+              <tr><td>11:35 AM</td><td>Latest submission time in the example</td></tr>
+            </tbody>
+          </table></div>
+          <div class="notice yellow">Use the example as a guide to understand the sequence. Follow the actual instructions and notification given during the training session.</div>
+        </div>
+      </section>
+
+      <section id="calendar" class="section">
+        <div class="panel">
+          <h2>WORLD 4: THE TRAINING MAP</h2>
+          <p class="muted">November–December 2026 schedule transcribed from the source document. Check the official calendar for any updates.</p>
+          <div class="toolbar">
+            <button class="btn blue" onclick="filterEvents('all')">All events</button>
+            <button class="btn blue" onclick="filterEvents('Training')">Weekly training</button>
+            <button class="btn blue" onclick="filterEvents('Press Conference')">Press conference</button>
+            <button class="btn blue" onclick="filterEvents('Critiquing')">Critiquing</button>
+            <button class="btn blue" onclick="filterEvents('Learning')">Learning</button>
+            <button class="btn blue" onclick="filterEvents('Alignment')">Alignment</button>
+          </div>
+          <div id="eventList" class="event-list"></div>
+          <p class="smallprint">Note: The calendar is reproduced as listed in the source. Where the source gives a date and time without a day label, this portal does not add one.</p>
+          <div class="toolbar">
+            <span class="smallprint">Official calendar link has not yet been added by the administrator.</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="activities" class="section">
+        <div class="panel">
+          <h2>WORLD 5: THE PRACTICE ARENA</h2>
+          <div class="grid">
+            <div class="world"><div class="emoji">📚</div><strong>Weekly Training</strong><span>Attend scheduled sessions and work on the assigned training outputs.</span></div>
+            <div class="world"><div class="emoji">🏁</div><strong>Saturday Press Conference</strong><span>Mandatory official competition simulation. Arrive on time and prepare competition-ready outputs.</span></div>
+            <div class="world"><div class="emoji">📝</div><strong>Critiquing</strong><span>Review outputs and apply feedback immediately.</span></div>
+            <div class="world"><div class="emoji">💡</div><strong>Learning</strong><span>Build skills through tutorials, benchmarking, and equipment-related learning.</span></div>
+            <div class="world"><div class="emoji">🤝</div><strong>Alignment</strong><span>Report progress and coordinate requirements, concerns, and next steps.</span></div>
+          </div>
+          <h3>Saturday Press Conference — non-negotiable reminders</h3>
+          <div class="notice yellow"><strong>Official start time: 7:30 AM every Saturday.</strong></div>
+          <ul>
+            <li>Attendance is mandatory. No member should arrive late.</li>
+            <li>Bring your own food. The proposed food budget is still being processed.</li>
+            <li>All outputs must be competition-ready.</li>
+          </ul>
+          <h3>Other operational reminders</h3>
+          <ul>
+            <li>Check the calendar and announcements for the venue/modality and time.</li>
+            <li>Use Discord for daily emergency briefings.</li>
+            <li>After training, head home immediately and remain reachable.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="final" class="section">
+        <div class="panel">
+          <h2>FINAL CASTLE: RSPC 2026</h2>
+          <div class="notice yellow"><strong>FINAL QUEST:</strong> Bring together the skills, discipline, teamwork, and output quality developed throughout training.</div>
+          <div class="timeline">
+            <div class="step"><div class="step-num">0</div><div class="step-content"><strong>December 8, 2026 — RSPC Day 0</strong></div></div>
+            <div class="step"><div class="step-num">1</div><div class="step-content"><strong>December 9, 2026 — RSPC Day 1</strong></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-content"><strong>December 10, 2026 — RSPC Day 2</strong></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-content"><strong>December 11, 2026 — RSPC Day 3</strong></div></div>
+          </div>
+          <h3>Final preparation reminders</h3>
+          <ul>
+            <li>Complete all required training outputs.</li>
+            <li>Apply the feedback from critiquing sessions.</li>
+            <li>Follow the official training calendar and announcements.</li>
+            <li>Coordinate concerns immediately; do not assume.</li>
+            <li>Be ready to produce and present competition-ready work.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="checklist" class="section">
+        <div class="panel">
+          <h2>MY PLAYER CHECKLIST</h2>
+          <h3>PLAYER ROSTER</h3>
+          <p><strong>Online Publishing:</strong> Elisha, Viana, Marcia, Leodale, Marianne</p>
+          <p><strong>Radio Broadcasting:</strong> Jodie, Khryz, Kynch, Zachary, Zee, Avrille, Shandee</p>
+          <p>Tick the tasks you have completed. Each completed task earns one coin on this browser/device.</p>
+          <div class="progress"><div id="progressBar"></div></div>
+          <p><strong id="progressText">0 of 12 completed</strong></p>
+          <div id="checklistItems" class="checklist"></div>
+          <div class="toolbar">
+            <button class="btn blue" onclick="resetChecklist()">Reset checklist</button>
+          </div>
+          <p class="smallprint">Checklist progress is saved in this browser only. It is not an attendance record and does not sync across devices or provide an administrator with member-level progress.</p>
+        </div>
+      </section>
+      <section id="masters" class="section">
+        <div class="panel">
+          <h2>👑 GAME MASTERS</h2>
+          <h3>HEAD GAME MASTERS</h3>
+          <ul>
+            <li><a href="https://www.facebook.com/itskeeeith" target="_blank" rel="noopener noreferrer">Keith Andrei</a> — The Mastermind</li>
+            <li><a href="https://www.facebook.com/smithd.lagdaan" target="_blank" rel="noopener noreferrer">Smith</a> — The Knight</li>
+            <li><a href="https://www.facebook.com/carlajoy.flores.7" target="_blank" rel="noopener noreferrer">Carla Joy</a> — The Highest Priestess</li>
+          </ul>
+          <h3>THE GAME GENERALS</h3>
+          <ul>
+            <li><a href="https://www.facebook.com/jessepilar.07" target="_blank" rel="noopener noreferrer">Jesse</a> — The Harbinger of Truth</li>
+            <li><a href="https://www.facebook.com/JLCawilan" target="_blank" rel="noopener noreferrer">Joshua</a> — The Master Builder</li>
+            <li><a href="https://www.facebook.com/jairo.tumbaga" target="_blank" rel="noopener noreferrer">Eidref</a> — The Prophet</li>
+            <li>Faith — The Triumphant</li>
+          </ul>
+          <h3>THE GAME CHANGERS</h3>
+          <ul>
+            <li><a href="https://www.facebook.com/chrisdenvergomez" target="_blank" rel="noopener noreferrer">Chris</a> — The Hierophant</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">🍄 TLN TRAINING QUEST • 2026 • Keep learning. Keep creating. Be competition-ready. ⭐<p>Developed by Keith Andrei A. Layson</p><p>The Louisian Newsette</p></footer>
+  </div>
+
+  <script>
+    const EVENTS = [
+      ['Nov 4','Weekly Training','5:00–6:00 PM','Training'],
+      ['Nov 5','Weekly Training','5:00–6:00 PM','Training'],
+      ['Nov 6','Weekly Training','5:00–6:00 PM','Training'],
+      ['Nov 7','Saturday Press Conference','7:30 AM–5:00 PM • ONLINE','Press Conference'],
+      ['Nov 8','Critiquing','1:00–5:00 PM','Critiquing'],
+      ['Nov 9','Learning','7:30 AM–4:00 PM','Learning'],
+      ['Nov 11','Weekly Training','7:30 AM–6:00 PM','Training'],
+      ['Nov 13','Weekly Training','7:30 AM–6:00 PM','Training'],
+      ['Nov 14','Saturday Press Conference','7:30 AM–5:00 PM','Press Conference'],
+      ['Nov 15','Critiquing','1:00–5:00 PM','Critiquing'],
+      ['Nov 16','Learning','7:30 AM–4:00 PM','Learning'],
+      ['Nov 18','Weekly Training','7:30 AM–6:00 PM','Training'],
+      ['Nov 20','Weekly Training','7:30 AM–6:00 PM','Training'],
+      ['Nov 21','Saturday Press Conference','7:30 AM–5:00 PM','Press Conference'],
+      ['Nov 22','Critiquing','1:00–5:00 PM','Critiquing'],
+      ['Nov 23','Learning','7:30 AM–4:00 PM','Learning'],
+      ['Nov 27','Alignment','1:00–5:00 PM','Alignment'],
+      ['Nov 28','Saturday Press Conference','7:30 AM–12:00 NN • HALF-DAY','Press Conference'],
+      ['Nov 29–30','Alignment','Whole day','Alignment'],
+      ['Dec 1–4','Full Blast Training','7:30 AM–6:00 PM','Training'],
+      ['Dec 5','Press Conference Preparation','7:30 AM–5:00 PM','Press Conference'],
+      ['Dec 6','Critiquing','1:00–5:00 PM','Critiquing'],
+      ['Dec 7','Learning','7:30 AM–4:00 PM','Learning'],
+      ['Dec 8','RSPC Day 0','Competition','RSPC'],
+      ['Dec 9','RSPC Day 1','Competition','RSPC'],
+      ['Dec 10','RSPC Day 2','Competition','RSPC'],
+      ['Dec 11','RSPC Day 3','Competition','RSPC']
+    ];
+
+    const TASKS = [
+      'I have reviewed the general training guidelines.',
+      'I know whom to contact about schedule conflicts.',
+      'I have checked the official training calendar.',
+      'I understand the attendance rules for my activity.',
+      'I know the required outputs for my category.',
+      'I understand when the production clock starts.',
+      'I know the Radio Broadcasting production timeline (if applicable).',
+      'I have checked the next training activity and its schedule.',
+      'I am prepared to arrive on time.',
+      'I have prepared the materials/equipment needed.',
+      'I have reviewed feedback and applied the necessary revisions.',
+      'My assigned outputs are competition-ready.'
+    ];
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === id));
+      document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', () => showSection(b.dataset.target)));
+
+    function filterEvents(category) {
+      const filtered = category === 'all' ? EVENTS : EVENTS.filter(e => e[3] === category);
+      renderEvents(filtered);
+    }
+    function renderEvents(events) {
+      const list = document.getElementById('eventList');
+      list.innerHTML = events.map(e => `
+        <div class="event">
+          <div class="event-date"><b>${e[0].split(' ')[1] || e[0]}</b><span>${e[0].split(' ')[0]}</span></div>
+          <div><div class="event-name">${e[1]}</div><div class="event-meta">${e[2]}</div></div>
+          <span class="pill">${e[3]}</span>
+        </div>`).join('');
+    }
+
+    function getChecks() {
+      try { return JSON.parse(localStorage.getItem('tlnQuestChecks') || '{}'); }
+      catch(e) { return {}; }
+    }
+    function saveChecks(data) { localStorage.setItem('tlnQuestChecks', JSON.stringify(data)); }
+    function renderChecklist() {
+      const data = getChecks();
+      const container = document.getElementById('checklistItems');
+      container.innerHTML = TASKS.map((task,i) => `
+        <label class="check ${data[i] ? 'done' : ''}">
+          <input type="checkbox" data-index="${i}" ${data[i] ? 'checked' : ''}>
+          <span>${task}</span>
+        </label>`).join('');
+      container.querySelectorAll('input').forEach(input => input.addEventListener('change', e => {
+        const checks = getChecks();
+        checks[e.target.dataset.index] = e.target.checked;
+        saveChecks(checks);
+        renderChecklist();
+      }));
+      updateProgress(data);
+    }
+    function updateProgress(data) {
+      const count = TASKS.filter((_,i) => !!data[i]).length;
+      document.getElementById('coinCount').textContent = count;
+      document.getElementById('progressText').textContent = `${count} of ${TASKS.length} completed`;
+      document.getElementById('progressBar').style.width = `${count / TASKS.length * 100}%`;
+    }
+    function resetChecklist() {
+      if (confirm('Reset all checklist progress on this browser?')) {
+        localStorage.removeItem('tlnQuestChecks');
+        renderChecklist();
+      }
+    }
+    renderEvents(EVENTS);
+    renderChecklist();
+  </script>
+</body>
+</html>
