@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,6 +117,12 @@
       .pixel-row { font-size:21px; letter-spacing:2px; }
     }
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    .auth-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}
+    .quest-field{display:grid;gap:5px;margin:13px 0}
+    .quest-field input,.quest-field select{padding:11px;border:2px solid var(--ink);border-radius:3px;font:inherit;max-width:600px;width:100%}
+  </style>
 </head>
 <body>
   <div class="clouds">☁️　☁️　　 ☁️　☁️　　☁️</div>
@@ -142,6 +149,8 @@
       <button data-target="activities">🎯 World 5: Training</button>
       <button data-target="final">🏰 Final Castle</button>
       <button data-target="checklist">✅ My Checklist</button>
+      <button data-target="tasks-world">📜 Task World</button>
+      <button data-target="submission-bin">📥 Submission Bin</button>
       <button data-target="masters">👑 Game Masters</button>
     </nav>
 
@@ -350,6 +359,7 @@
           <p class="smallprint">Checklist progress is saved in this browser only. It is not an attendance record and does not sync across devices or provide an administrator with member-level progress.</p>
         </div>
       </section>
+
       <section id="masters" class="section">
         <div class="panel">
           <h2>👑 GAME MASTERS</h2>
@@ -372,8 +382,40 @@
           </ul>
         </div>
       </section>
+
+      <section id="tasks-world" class="section">
+        <div class="panel">
+          <h2>📜 TASK WORLD</h2>
+          <p>Access the official assignment document. Follow the instructions and deadlines provided by your trainers.</p>
+          <p><a class="btn blue calendar-link" href="https://docs.google.com/document/d/1bD7zBN73Yvf5-Ta9nRPObDcWElwYwPZxULHAEK5-myE/edit" target="_blank" rel="noopener noreferrer">📖 Open Assignment Document ↗</a></p>
+          <div class="notice yellow">Assignments and deadlines are maintained in the linked document; they are not copied into this website.</div>
+        </div>
+      </section>
+
+      <section id="submission-bin" class="section">
+        <div class="panel">
+          <h2>📥 SUBMISSION BIN</h2>
+          <p>Sign in with Google to test the website login. Approved-player verification and submissions will be enabled after secure backend integration.</p>
+          <div id="googleSignInButton" class="auth-row"></div>
+          <button id="signOutButton" class="btn blue hidden" type="button">Sign out of this session</button>
+          <div id="authStatus" class="notice yellow" role="status">Not signed in. Google Sign-In will load shortly.</div>
+          <div id="submissionFields" class="hidden">
+            <label class="quest-field">Task / assignment name <input id="assignmentName" type="text" maxlength="160" placeholder="Enter the assignment name"></label>
+            <label class="quest-field">Submission type <select id="submissionType"><option value="link">Link / URL</option><option value="pdf">PDF file</option></select></label>
+            <label class="quest-field" id="linkField">Submission URL <input id="submissionUrl" type="url" placeholder="https://..."></label>
+            <label class="quest-field hidden" id="pdfField">PDF file <input id="submissionPdf" type="file" accept="application/pdf,.pdf"></label>
+            <button class="btn green" disabled title="Backend verification and upload service are not yet configured">🔒 Submission opens after secure backend setup</button>
+            <p class="smallprint">Your Google identity must be verified by the backend and matched against the approved Player Registry before a submission can be accepted. This page does not yet upload or email anything.</p>
+          </div>
+        </div>
+      </section>
     </main>
-    <footer class="footer">🍄 TLN TRAINING QUEST • 2026 • Keep learning. Keep creating. Be competition-ready. ⭐<p>Developed by Keith Andrei A. Layson</p><p>The Louisian Newsette</p></footer>
+
+    <footer class="footer">
+      🍄 TLN TRAINING QUEST • 2026 • Keep learning. Keep creating. Be competition-ready. ⭐
+      <p>Developed by Keith Andrei A. Layson</p>
+      <p>The Louisian Newsette</p>
+    </footer>
   </div>
 
   <script>
@@ -427,55 +469,148 @@
       document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.target === id));
       window.scrollTo({top:0, behavior:'smooth'});
     }
-    document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', () => showSection(b.dataset.target)));
+
+    document.querySelectorAll('.nav button').forEach(b =>
+      b.addEventListener('click', () => showSection(b.dataset.target))
+    );
 
     function filterEvents(category) {
       const filtered = category === 'all' ? EVENTS : EVENTS.filter(e => e[3] === category);
       renderEvents(filtered);
     }
+
     function renderEvents(events) {
       const list = document.getElementById('eventList');
       list.innerHTML = events.map(e => `
         <div class="event">
-          <div class="event-date"><b>${e[0].split(' ')[1] || e[0]}</b><span>${e[0].split(' ')[0]}</span></div>
-          <div><div class="event-name">${e[1]}</div><div class="event-meta">${e[2]}</div></div>
+          <div class="event-date">
+            <b>${e[0].split(' ')[1] || e[0]}</b>
+            <span>${e[0].split(' ')[0]}</span>
+          </div>
+          <div>
+            <div class="event-name">${e[1]}</div>
+            <div class="event-meta">${e[2]}</div>
+          </div>
           <span class="pill">${e[3]}</span>
-        </div>`).join('');
+        </div>
+      `).join('');
     }
 
     function getChecks() {
-      try { return JSON.parse(localStorage.getItem('tlnQuestChecks') || '{}'); }
-      catch(e) { return {}; }
+      try {
+        return JSON.parse(localStorage.getItem('tlnQuestChecks') || '{}');
+      } catch(e) {
+        return {};
+      }
     }
-    function saveChecks(data) { localStorage.setItem('tlnQuestChecks', JSON.stringify(data)); }
+
+    function saveChecks(data) {
+      localStorage.setItem('tlnQuestChecks', JSON.stringify(data));
+    }
+
     function renderChecklist() {
       const data = getChecks();
       const container = document.getElementById('checklistItems');
+
       container.innerHTML = TASKS.map((task,i) => `
         <label class="check ${data[i] ? 'done' : ''}">
           <input type="checkbox" data-index="${i}" ${data[i] ? 'checked' : ''}>
           <span>${task}</span>
-        </label>`).join('');
-      container.querySelectorAll('input').forEach(input => input.addEventListener('change', e => {
-        const checks = getChecks();
-        checks[e.target.dataset.index] = e.target.checked;
-        saveChecks(checks);
-        renderChecklist();
-      }));
+        </label>
+      `).join('');
+
+      container.querySelectorAll('input').forEach(input =>
+        input.addEventListener('change', e => {
+          const checks = getChecks();
+          checks[e.target.dataset.index] = e.target.checked;
+          saveChecks(checks);
+          renderChecklist();
+        })
+      );
+
       updateProgress(data);
     }
+
     function updateProgress(data) {
       const count = TASKS.filter((_,i) => !!data[i]).length;
       document.getElementById('coinCount').textContent = count;
-      document.getElementById('progressText').textContent = `${count} of ${TASKS.length} completed`;
-      document.getElementById('progressBar').style.width = `${count / TASKS.length * 100}%`;
+      document.getElementById('progressText').textContent =
+        `${count} of ${TASKS.length} completed`;
+      document.getElementById('progressBar').style.width =
+        `${count / TASKS.length * 100}%`;
     }
+
     function resetChecklist() {
       if (confirm('Reset all checklist progress on this browser?')) {
         localStorage.removeItem('tlnQuestChecks');
         renderChecklist();
       }
     }
+
+    const GOOGLE_CLIENT_ID =
+      '299690057614-o9050boacedls37dqhrk7nc0am1t8scm.apps.googleusercontent.com';
+
+    function handleGoogleCredential(response) {
+      // Browser-side sign-in is NOT server-side authorization.
+      if (!response || !response.credential) return;
+
+      document.getElementById('authStatus').textContent =
+        'Google sign-in received. Server-side account verification is not connected yet; submissions remain locked.';
+
+      document.getElementById('signOutButton').classList.remove('hidden');
+
+      // Do not unlock submissions until the backend verifies
+      // the token and checks the approved Player Registry.
+    }
+
+    function initQuestSignIn() {
+      if (!window.google || !google.accounts || !google.accounts.id) {
+        document.getElementById('authStatus').textContent =
+          'Google Sign-In could not load. Refresh the page or check browser privacy settings.';
+        return;
+      }
+
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('googleSignInButton'),
+        {
+          theme: 'outline',
+          size: 'large',
+          text: 'signin_with'
+        }
+      );
+
+      document.getElementById('authStatus').textContent =
+        'Sign in to prepare your submission. Backend authorization is still being configured.';
+    }
+
+    document.getElementById('signOutButton').addEventListener('click', () => {
+      if (window.google && google.accounts && google.accounts.id) {
+        google.accounts.id.disableAutoSelect();
+      }
+
+      document.getElementById('signOutButton').classList.add('hidden');
+      document.getElementById('submissionFields').classList.add('hidden');
+      document.getElementById('authStatus').textContent =
+        'Signed out of this website session. You may sign in again.';
+    });
+
+    window.addEventListener('load', initQuestSignIn);
+
+    document.getElementById('submissionType').addEventListener('change', e => {
+      const pdf = e.target.value === 'pdf';
+
+      document.getElementById('pdfField')
+        .classList.toggle('hidden', !pdf);
+
+      document.getElementById('linkField')
+        .classList.toggle('hidden', pdf);
+    });
+
     renderEvents(EVENTS);
     renderChecklist();
   </script>
