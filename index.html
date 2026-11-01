@@ -547,8 +547,212 @@
       }
     }
 
-    const GOOGLE_CLIENT_ID =
-      '299690057614-o9050boacedls37dqhrk7nc0am1t8scm.apps.googleusercontent.com';
+    
+const GOOGLE_CLIENT_ID =
+  '299690057614-o9050boacedls37dqhrk7nc0am1t8scm.apps.googleusercontent.com';
+
+// PASTE YOUR DEPLOYED APPS SCRIPT /exec URL HERE.
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/up.edu.ph/s/AKfycbytc3nRn1vx0ZG4xPVkEdykcvJhYANf9rCPbCm_TXs41LW1aEyI1dzuhMpI7pk7w2kZ/exec';
+
+const TLN_AUTH_TIMEOUT_MS = 30000;
+
+let currentAuthRequest = null;
+let verifiedPlayer = null;
+
+function setAuthStatus(message) {
+  document.getElementById('authStatus').textContent = message;
+}
+
+function makeAuthRequestId() {
+  const bytes = new Uint8Array(24);
+  crypto.getRandomValues(bytes);
+
+  return Array.from(bytes, byte =>
+    byte.toString(16).padStart(2, '0')
+  ).join('');
+}
+
+function clearAuthRequest() {
+  if (!currentAuthRequest) return;
+
+  clearTimeout(currentAuthRequest.timeout);
+  currentAuthRequest.iframe.remove();
+  currentAuthRequest = null;
+}
+
+function resetVerifiedPlayer() {
+  verifiedPlayer = null;
+  document.getElementById('submissionFields')
+    .classList.add('hidden');
+}
+
+function handleGoogleCredential(response) {
+  if (!response || !response.credential) {
+    setAuthStatus('Google did not return a credential.');
+    return;
+  }
+
+  if (!APPS_SCRIPT_URL.startsWith('https://script.google.com/')) {
+    setAuthStatus('Please configure your Apps Script /exec URL.');
+    return;
+  }
+
+  clearAuthRequest();
+  resetVerifiedPlayer();
+
+  setAuthStatus('🔄 Verifying your Google account with the Player Registry...');
+
+  const requestId = makeAuthRequestId();
+
+  // Submit to Apps Script using a standard cross-origin
+  // HTML form, avoiding a JSON fetch preflight.
+  const iframe = document.createElement('iframe');
+  iframe.name = 'tln_auth_' + requestId;
+  iframe.style.display = 'none';
+  iframe.setAttribute('title', 'TLN authorization response');
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = APPS_SCRIPT_URL;
+  form.target = iframe.name;
+  form.style.display = 'none';
+
+  const fields = {
+    action: 'authorize',
+    requestId: requestId,
+    idToken: response.credential
+  };
+
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  const timeout = setTimeout(() => {
+    if (currentAuthRequest?.requestId !== requestId) return;
+
+    clearAuthRequest();
+    setAuthStatus(
+      'Verification timed out. Check your Apps Script deployment and try signing in again.'
+    );
+  }, TLN_AUTH_TIMEOUT_MS);
+
+  currentAuthRequest = {
+    requestId,
+    iframe,
+    timeout
+  };
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+}
+
+window.addEventListener('message', event => {
+  // Apps Script HTML Service runs in a Google-hosted iframe.
+  // Validate the sender's origin AND the expected iframe.
+  const origin = event.origin;
+
+  const trustedGoogleOrigin =
+    origin === 'https://script.google.com' ||
+    /^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/.test(origin);
+
+  if (!trustedGoogleOrigin || !currentAuthRequest) return;
+
+  if (event.source !== currentAuthRequest.iframe.contentWindow) {
+    return;
+  }
+
+  const data = event.data;
+
+  if (!data || typeof data !== 'object') return;
+  if (data.source !== 'TLN_AUTH_BRIDGE') return;
+  if (data.requestId !== currentAuthRequest.requestId) return;
+
+  clearAuthRequest();
+
+  if (!data.success) {
+    resetVerifiedPlayer();
+    setAuthStatus(
+      '🔒 ACCESS DENIED: Your account is not approved or could not be verified.'
+    );
+    return;
+  }
+
+  const player = data.player;
+
+  if (!player || !player.name || !player.team || !player.email) {
+    resetVerifiedPlayer();
+    setAuthStatus('Invalid authorization response.');
+    return;
+  }
+
+  verifiedPlayer = player;
+
+  setAuthStatus(
+    '✅ ACCESS GRANTED! Welcome, ' +
+    player.name +
+    ' | Team: ' +
+    player.team +
+    (player.isAdmin ? ' | Game Master' : '')
+  );
+
+  document.getElementById('signOutButton')
+    .classList.remove('hidden');
+
+  // This is only a successful authorization test.
+  // Keep uploads disabled until the submission endpoint
+  // independently verifies each Google token.
+  document.getElementById('submissionFields')
+    .classList.remove('hidden');
+});
+
+function initQuestSignIn() {
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    setAuthStatus(
+      'Google Sign-In could not load. Refresh the page.'
+    );
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById('googleSignInButton'),
+    {
+      theme: 'outline',
+      size: 'large',
+      text: 'signin_with'
+    }
+  );
+
+  setAuthStatus('Sign in to verify your Player Registry access.');
+}
+
+document.getElementById('signOutButton')
+  .addEventListener('click', () => {
+    clearAuthRequest();
+    resetVerifiedPlayer();
+
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.disableAutoSelect();
+    }
+
+    document.getElementById('signOutButton')
+      .classList.add('hidden');
+
+    setAuthStatus('Signed out of this website session.');
+  });
+
+window.addEventListener('load', initQuestSignIn);
+
 
     function handleGoogleCredential(response) {
       // Browser-side sign-in is NOT server-side authorization.
