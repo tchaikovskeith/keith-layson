@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-:root{
+:root {
   --sky:#68cef3;
   --red:#ed443b;
   --yellow:#ffd044;
@@ -20,9 +20,9 @@
   --line:#e6dfcc;
   --shadow:0 7px 0 rgba(38,56,75,.16);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
   margin:0;
   min-height:100vh;
   color:var(--ink);
@@ -34,10 +34,10 @@ body{
     #eaf8dc 390px 100%
   );
 }
-button,input{font:inherit}
-button{cursor:pointer}
-a{color:#17618c}
-.clouds{
+button,input { font:inherit; }
+button { cursor:pointer; }
+a { color:#17618c; }
+.clouds {
   position:absolute;
   top:20px;
   left:0;
@@ -49,13 +49,13 @@ a{color:#17618c}
   font-size:44px;
   white-space:nowrap;
 }
-.wrap{
+.wrap {
   max-width:1180px;
   margin:auto;
   padding:24px 20px 55px;
   position:relative;
 }
-.hero{
+.hero {
   text-align:center;
   padding:35px 20px 28px;
   background:rgba(255,255,255,.2);
@@ -63,7 +63,7 @@ a{color:#17618c}
   border-radius:8px;
   box-shadow:0 8px 0 rgba(28,115,155,.13);
 }
-.tag{
+.tag {
   display:inline-block;
   background:var(--red);
   color:white;
@@ -73,30 +73,30 @@ a{color:#17618c}
   font-size:11px;
   letter-spacing:1px;
 }
-h1{
+h1 {
   font:clamp(25px,5vw,43px)/1.35 'Press Start 2P',monospace;
   margin:25px 0 12px;
   color:white;
   text-shadow:4px 4px 0 var(--red),7px 7px 0 var(--ink);
 }
-.hero .subtitle{
+.hero .subtitle {
   font:12px 'Press Start 2P',monospace;
   color:white;
   text-shadow:2px 2px var(--ink);
   margin:18px 0;
 }
-.hero p{
+.hero p {
   max-width:700px;
   margin:12px auto;
   font-size:17px;
   color:#173e58;
 }
-.pixel-row{
+.pixel-row {
   font-size:28px;
   letter-spacing:8px;
   margin-top:18px;
 }
-.topbar{
+.topbar {
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -104,7 +104,7 @@ h1{
   flex-wrap:wrap;
   margin:22px 0;
 }
-.player{
+.player {
   display:flex;
   align-items:center;
   gap:12px;
@@ -113,27 +113,25 @@ h1{
   border:3px solid var(--ink);
   box-shadow:var(--shadow);
 }
-.avatar{font-size:27px}
-.player small{
+.avatar { font-size:27px; }
+.player small {
   display:block;
   color:var(--muted);
   font-weight:900;
 }
-.coins{
+.coins {
   background:var(--yellow);
   padding:9px 13px;
   border:3px solid var(--ink);
   box-shadow:3px 3px 0 var(--ink);
 }
-
-/* SIX TOP-LEVEL NAVIGATION BUTTONS */
-.nav{
+.nav {
   display:grid;
   grid-template-columns:repeat(6,minmax(0,1fr));
   gap:8px;
   margin:20px 0 25px;
 }
-.nav button,.btn{
+.nav button,.btn {
   border:3px solid var(--ink);
   background:var(--yellow);
   color:var(--ink);
@@ -146,22 +144,22 @@ h1{
   text-align:center;
   transition:transform .12s,box-shadow .12s;
 }
-.nav button{
+.nav button {
   font-size:13px;
   min-height:54px;
 }
-.nav button:hover,.btn:hover{
+.nav button:hover,.btn:hover {
   transform:translate(2px,2px);
   box-shadow:1px 1px 0 var(--ink);
 }
-.nav button.active{
+.nav button.active {
   background:var(--red);
   color:white;
 }
-.btn.red{background:var(--red);color:white}
-.btn.green{background:var(--green);color:white}
-.btn.blue{background:#dff5ff}
-.panel{
+.btn.red { background:var(--red);color:white; }
+.btn.green { background:var(--green);color:white; }
+.btn.blue { background:#dff5ff; }
+.panel {
   background:var(--cream);
   border:4px solid var(--ink);
   border-radius:6px;
@@ -169,26 +167,26 @@ h1{
   padding:22px;
   min-width:0;
 }
-.panel h2{
+.panel h2 {
   font:15px/1.7 'Press Start 2P',monospace;
   margin:0 0 17px;
   color:var(--red);
 }
-.panel h3{
+.panel h3 {
   margin:18px 0 8px;
   font-size:18px;
 }
-.panel p{
+.panel p {
   line-height:1.6;
   margin:8px 0;
 }
-.muted{color:var(--muted)}
-.grid{
+.muted { color:var(--muted); }
+.grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:15px;
 }
-.world{
+.world {
   background:white;
   border:3px solid var(--ink);
   padding:17px;
@@ -198,51 +196,51 @@ h1{
   gap:8px;
   min-height:145px;
 }
-.world .emoji{font-size:31px}
-.world strong{font-size:17px}
-.world span{
+.world .emoji { font-size:31px; }
+.world strong { font-size:17px; }
+.world span {
   color:var(--muted);
   font-size:14px;
   line-height:1.4;
 }
-.world button,.world .btn{
+.world button,.world .btn {
   align-self:flex-start;
   margin-top:auto;
 }
-.notice{
+.notice {
   border-left:7px solid var(--red);
   background:#fff0e9;
   padding:13px 15px;
   margin:13px 0;
   line-height:1.6;
 }
-.notice.yellow{
+.notice.yellow {
   border-color:#e8b400;
   background:#fff6d7;
 }
-.notice.green{
+.notice.green {
   border-color:var(--green);
   background:#eaf8e8;
 }
-ul{padding-left:22px;line-height:1.65}
-li{margin:5px 0}
-.table-wrap{overflow-x:auto}
-table{
+ul { padding-left:22px;line-height:1.65; }
+li { margin:5px 0; }
+.table-wrap { overflow-x:auto; }
+table {
   width:100%;
   border-collapse:collapse;
   min-width:620px;
   background:white;
 }
-th,td{
+th,td {
   text-align:left;
   vertical-align:top;
   border:2px solid var(--line);
   padding:10px;
   line-height:1.45;
 }
-th{background:#dff4ff;font-size:13px}
-td{font-size:14px}
-.pill{
+th { background:#dff4ff;font-size:13px; }
+td { font-size:14px; }
+.pill {
   display:inline-block;
   border:2px solid var(--ink);
   padding:3px 8px;
@@ -251,8 +249,8 @@ td{font-size:14px}
   border-radius:3px;
   white-space:nowrap;
 }
-.event-list{display:grid;gap:10px}
-.event{
+.event-list { display:grid;gap:10px; }
+.event {
   display:grid;
   grid-template-columns:90px 1fr auto;
   gap:12px;
@@ -261,22 +259,22 @@ td{font-size:14px}
   border:2px solid var(--ink);
   background:white;
 }
-.event-date{
+.event-date {
   background:var(--yellow);
   border:2px solid var(--ink);
   padding:8px;
   text-align:center;
   font-weight:900;
 }
-.event-date b{display:block;font-size:21px}
-.event-name{font-weight:900}
-.event-meta{
+.event-date b { display:block;font-size:21px; }
+.event-name { font-weight:900; }
+.event-meta {
   color:var(--muted);
   font-size:13px;
   margin-top:3px;
 }
-.checklist{display:grid;gap:9px}
-.check{
+.checklist { display:grid;gap:9px; }
+.check {
   display:flex;
   align-items:flex-start;
   gap:10px;
@@ -284,36 +282,36 @@ td{font-size:14px}
   background:white;
   border:2px solid var(--line);
 }
-.check input{
+.check input {
   width:19px;
   height:19px;
   accent-color:var(--green);
   margin-top:2px;
 }
-.check.done span{
+.check.done span {
   text-decoration:line-through;
   color:#83909c;
 }
-.progress{
+.progress {
   height:17px;
   border:3px solid var(--ink);
   background:white;
   margin:12px 0;
 }
-.progress>div{
+.progress>div {
   height:100%;
   width:0;
   background:var(--green);
   transition:width .2s;
 }
-.timeline{display:grid;gap:10px}
-.step{
+.timeline { display:grid;gap:10px; }
+.step {
   display:grid;
   grid-template-columns:42px 1fr;
   gap:12px;
   align-items:start;
 }
-.step-num{
+.step-num {
   background:var(--yellow);
   border:3px solid var(--ink);
   width:40px;
@@ -322,22 +320,22 @@ td{font-size:14px}
   place-items:center;
   box-shadow:3px 3px 0 var(--ink);
 }
-.step-content{
+.step-content {
   background:white;
   border:2px solid var(--line);
   padding:11px 13px;
 }
-.step-content strong{display:block}
-.section{display:none}
-.section.active{display:block}
-.smallprint{font-size:12px;color:var(--muted)}
-.toolbar{
+.step-content strong { display:block; }
+.section { display:none; }
+.section.active { display:block; }
+.smallprint { font-size:12px;color:var(--muted); }
+.toolbar {
   display:flex;
   gap:8px;
   flex-wrap:wrap;
   margin:12px 0;
 }
-.breadcrumb{
+.breadcrumb {
   display:flex;
   align-items:center;
   flex-wrap:wrap;
@@ -345,7 +343,7 @@ td{font-size:14px}
   margin-bottom:18px;
   font-size:13px;
 }
-.breadcrumb button{
+.breadcrumb button {
   background:none;
   border:none;
   padding:0;
@@ -353,27 +351,27 @@ td{font-size:14px}
   text-decoration:underline;
   font-weight:900;
 }
-.breadcrumb span{color:var(--muted)}
-.back-button{margin:18px 10px 0 0}
-.task-hub{
+.breadcrumb span { color:var(--muted); }
+.back-button { margin:18px 10px 0 0; }
+.task-hub {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:16px;
   margin:20px 0;
 }
-.task-card{
+.task-card {
   background:white;
   border:3px solid var(--ink);
   padding:23px;
   text-align:center;
   box-shadow:4px 4px 0 #d8c9a6;
 }
-.task-card .emoji{font-size:44px}
-.task-card .btn{
+.task-card .emoji { font-size:44px; }
+.task-card .btn {
   display:block;
   margin-top:18px;
 }
-.form-portal{
+.form-portal {
   max-width:760px;
   margin:20px auto 0;
   background:white;
@@ -382,8 +380,8 @@ td{font-size:14px}
   box-shadow:6px 6px 0 #d8c9a6;
   text-align:center;
 }
-.portal-icon{font-size:56px;margin:12px 0}
-.portal-button{
+.portal-icon { font-size:56px;margin:12px 0; }
+.portal-button {
   display:block;
   width:100%;
   max-width:440px;
@@ -391,28 +389,38 @@ td{font-size:14px}
   padding:18px 15px;
   font-size:17px;
 }
-.portal-steps{
+.portal-steps {
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
   margin:22px 0;
 }
-.portal-step{
+.portal-step {
   padding:15px 10px;
   background:#fff7d7;
   border:2px solid var(--ink);
 }
-.portal-step .emoji{font-size:28px}
-.portal-step strong{display:block;margin:7px 0}
-.portal-step span{font-size:12px;color:var(--muted)}
-.announcement{
+.portal-step .emoji { font-size:28px; }
+.portal-step strong { display:block;margin:7px 0; }
+.portal-step span { font-size:12px;color:var(--muted); }
+
+/* GOOGLE SHEETS ANNOUNCEMENT BOARD */
+.announcement-toolbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:17px 0;
+}
+.announcement {
   background:white;
   border:3px solid var(--ink);
   padding:19px;
   margin:15px 0;
   box-shadow:4px 4px 0 #d8c9a6;
 }
-.announcement-header{
+.announcement-header {
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -420,7 +428,7 @@ td{font-size:14px}
   gap:10px;
   margin-bottom:12px;
 }
-.announcement-tag{
+.announcement-tag {
   display:inline-block;
   padding:5px 9px;
   border:2px solid var(--ink);
@@ -428,40 +436,49 @@ td{font-size:14px}
   font-size:11px;
   font-weight:900;
 }
-.announcement-date{
+.announcement-date {
   color:var(--muted);
   font-size:12px;
 }
-.announcement h3{margin:8px 0}
-.announcement p{font-size:14px;line-height:1.7}
-.empty-state{
+.announcement h3 { margin:8px 0; }
+.announcement p {
+  font-size:14px;
+  line-height:1.7;
+  white-space:pre-line;
+  overflow-wrap:anywhere;
+}
+.announcement-status {
+  font-size:13px;
+  color:var(--muted);
+}
+.empty-state {
   background:white;
   border:3px dashed var(--line);
   text-align:center;
   padding:28px;
   margin:20px 0;
 }
-.footer{
+.footer {
   text-align:center;
   color:#31536a;
   padding:25px 10px 0;
   font-size:13px;
 }
-@media(max-width:900px){
-  .nav{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px) {
+  .nav { grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
-@media(max-width:700px){
-  .wrap{padding:12px 12px 35px}
-  .hero{padding:26px 12px}
-  .grid,.task-hub,.portal-steps{grid-template-columns:1fr}
-  .event{grid-template-columns:72px 1fr}
-  .event .pill{grid-column:2;justify-self:start}
-  .panel{padding:17px}
-  .panel h2{font-size:12px}
-  .nav{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .nav button{font-size:12px;padding:11px 7px}
-  .pixel-row{font-size:21px;letter-spacing:2px}
-  .form-portal{padding:17px}
+@media(max-width:700px) {
+  .wrap { padding:12px 12px 35px; }
+  .hero { padding:26px 12px; }
+  .grid,.task-hub,.portal-steps { grid-template-columns:1fr; }
+  .event { grid-template-columns:72px 1fr; }
+  .event .pill { grid-column:2;justify-self:start; }
+  .panel { padding:17px; }
+  .panel h2 { font-size:12px; }
+  .nav { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .nav button { font-size:12px;padding:11px 7px; }
+  .pixel-row { font-size:21px;letter-spacing:2px; }
+  .form-portal { padding:17px; }
 }
 </style>
 </head>
@@ -489,7 +506,7 @@ td{font-size:14px}
   <div class="coins">🪙 COINS: <strong id="coinCount">0</strong></div>
 </div>
 
-<!-- EXACTLY SIX MAIN NAVIGATION BUTTONS -->
+<!-- SIX MAIN NAVIGATION BUTTONS -->
 <nav class="nav" aria-label="Main navigation">
   <button class="active" data-target="home">🏠 Home</button>
   <button data-target="worlds">🌎 Worlds</button>
@@ -501,7 +518,7 @@ td{font-size:14px}
 
 <main>
 
-<!-- LEVEL 1: HOME -->
+<!-- HOME -->
 <section id="home" class="section active">
 <div class="panel">
   <h2>WELCOME TO THE TRAINING QUEST</h2>
@@ -534,14 +551,14 @@ td{font-size:14px}
     <div class="world">
       <div class="emoji">📢</div>
       <strong>Announcement Tab</strong>
-      <span>Read training notices, reminders, and important updates.</span>
+      <span>Read updates posted by the Game Masters through Google Sheets.</span>
       <button class="btn blue" onclick="showSection('announcements')">VIEW ANNOUNCEMENTS →</button>
     </div>
   </div>
 </div>
 </section>
 
-<!-- LEVEL 2: WORLDS DIRECTORY -->
+<!-- WORLDS DIRECTORY -->
 <section id="worlds" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -596,7 +613,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: WORLD 1 -->
+<!-- WORLD 1 -->
 <section id="world-1" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -651,7 +668,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: WORLD 2 -->
+<!-- WORLD 2 -->
 <section id="world-2" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -702,7 +719,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: WORLD 3 -->
+<!-- WORLD 3 -->
 <section id="world-3" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -740,7 +757,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: WORLD 4 -->
+<!-- WORLD 4 -->
 <section id="world-4" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -766,7 +783,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: WORLD 5 -->
+<!-- WORLD 5 -->
 <section id="world-5" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -800,7 +817,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: FINAL CASTLE -->
+<!-- FINAL CASTLE -->
 <section id="final-castle" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -832,7 +849,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- MAIN PAGE: MY CHECKLIST -->
+<!-- MY CHECKLIST -->
 <section id="checklist" class="section">
 <div class="panel">
   <h2>✅ MY PLAYER CHECKLIST</h2>
@@ -850,7 +867,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 2: MY TASKS DIRECTORY -->
+<!-- MY TASKS DIRECTORY -->
 <section id="my-tasks" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -881,7 +898,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: MY TASKS > ASSIGNMENTS -->
+<!-- MY TASKS > ASSIGNMENTS -->
 <section id="task-assignments" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -898,8 +915,7 @@ td{font-size:14px}
   </div>
   <a class="btn blue"
      href="https://docs.google.com/document/d/1bD7zBN73Yvf5-Ta9nRPObDcWElwYwPZxULHAEK5-myE/edit"
-     target="_blank"
-     rel="noopener noreferrer">
+     target="_blank" rel="noopener noreferrer">
     📖 OPEN OFFICIAL ASSIGNMENT DOCUMENT ↗
   </a>
   <h3>Before submitting</h3>
@@ -914,7 +930,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- LEVEL 3: MY TASKS > SUBMISSION PORTAL -->
+<!-- MY TASKS > SUBMISSION PORTAL -->
 <section id="task-submission" class="section">
 <div class="panel">
   <div class="breadcrumb">
@@ -948,8 +964,7 @@ td{font-size:14px}
     </div>
     <a class="btn green portal-button"
        href="https://forms.gle/NPmkSgeVWZTKtp6T8"
-       target="_blank"
-       rel="noopener noreferrer">
+       target="_blank" rel="noopener noreferrer">
       🚀 OPEN GOOGLE FORMS SUBMISSION PORTAL ↗
     </a>
     <p class="smallprint">
@@ -976,7 +991,7 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- MAIN PAGE: GAME MASTERS -->
+<!-- GAME MASTERS -->
 <section id="masters" class="section">
 <div class="panel">
   <h2>👑 GAME MASTERS</h2>
@@ -1000,22 +1015,35 @@ td{font-size:14px}
 </div>
 </section>
 
-<!-- MAIN PAGE: ANNOUNCEMENT TAB -->
+<!-- GOOGLE SHEETS-POWERED ANNOUNCEMENT TAB -->
 <section id="announcements" class="section">
 <div class="panel">
   <h2>📢 ANNOUNCEMENT TAB</h2>
-  <p>Welcome to the TLN Training Quest announcement board.</p>
+  <p>Official training announcements, reminders, and notices from the Game Masters.</p>
   <div class="notice yellow">
     <strong>📣 STAY UPDATED!</strong>
-    Check this page regularly for training notices, schedule changes, and important reminders.
+    Check this page regularly for important training information.
   </div>
+
+  <div class="announcement-toolbar">
+    <span id="announcementStatus" class="announcement-status" role="status" aria-live="polite">
+      Loading announcements...
+    </span>
+    <button class="btn blue" type="button" onclick="loadAnnouncements()">
+      🔄 REFRESH ANNOUNCEMENTS
+    </button>
+  </div>
+
   <div id="announcementList"></div>
+  <p class="smallprint">
+    Announcements are managed through the TLN Announcement Manager Google Sheet.
+    Only entries marked Published are shown here.
+  </p>
 </div>
 </section>
 
 </main>
 
-<!-- UPDATED FOOTER -->
 <footer class="footer">
   🍄 TLN TRAINING QUEST • 2026 • Insignia of Principles, Beacon of Change ⭐
   <p>Developed by Keith Andrei A. Layson</p>
@@ -1025,6 +1053,28 @@ td{font-size:14px}
 </div>
 
 <script>
+/* GOOGLE SHEETS ANNOUNCEMENT CONNECTION */
+
+const ANNOUNCEMENT_SHEET_ID =
+  '1N25HJHN4-IwcGAuiTMGMw8YKcWTLT8kTQg2fiThpvek';
+
+const ANNOUNCEMENT_SHEET_NAME = 'Announcements';
+
+/*
+  Google Sheets must be shared:
+  Anyone with the link -> Viewer
+
+  Expected columns:
+  A: Date
+  B: Category
+  C: Title
+  D: Announcement
+  E: Status (Published / Draft)
+
+  This integration uses Google's Visualization API.
+  No API key or password is stored in the website.
+*/
+
 /* TRAINING CALENDAR */
 const EVENTS = [
   ['Nov 4','Weekly Training','5:00–6:00 PM','Training'],
@@ -1072,39 +1122,23 @@ const TASKS = [
   'My assigned outputs are competition-ready.'
 ];
 
-/* ANNOUNCEMENTS: EDIT THIS ARRAY TO ADD NEW POSTS */
-const ANNOUNCEMENTS = [
-  {
-    date:'November 1, 2026',
-    category:'WELCOME',
-    title:'🍄 Welcome to TLN Training Quest 2026!',
-    message:'The training portal is ready for use. Explore the Worlds, review your training calendar, complete your checklist, and access My Tasks for assignments and submissions. Please continue monitoring official training communications for updates.'
-  }
-];
-
-/* PAGES NESTED UNDER WORLDS */
+/* PAGE GROUPS */
 const WORLD_PAGES = [
-  'world-1',
-  'world-2',
-  'world-3',
-  'world-4',
-  'world-5',
-  'final-castle'
+  'world-1','world-2','world-3',
+  'world-4','world-5','final-castle'
 ];
 
-/* PAGES NESTED UNDER MY TASKS */
 const TASK_PAGES = [
-  'task-assignments',
-  'task-submission'
+  'task-assignments','task-submission'
 ];
 
-/* MAIN NAVIGATION */
+/* NAVIGATION */
 function showSection(id) {
   const target = document.getElementById(id);
   if (!target || !target.classList.contains('section')) return;
 
   document.querySelectorAll('.section').forEach(section => {
-    section.classList.toggle('active', section.id === id);
+    section.classList.toggle('active',section.id === id);
   });
 
   let mainNavId = id;
@@ -1113,19 +1147,20 @@ function showSection(id) {
 
   document.querySelectorAll('.nav button').forEach(button => {
     const active = button.dataset.target === mainNavId;
-    button.classList.toggle('active', active);
-    if (active) {
-      button.setAttribute('aria-current','page');
-    } else {
-      button.removeAttribute('aria-current');
-    }
+    button.classList.toggle('active',active);
+    if (active) button.setAttribute('aria-current','page');
+    else button.removeAttribute('aria-current');
   });
+
+  if (id === 'announcements') {
+    loadAnnouncements();
+  }
 
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 document.querySelectorAll('.nav button').forEach(button => {
-  button.addEventListener('click', () => showSection(button.dataset.target));
+  button.addEventListener('click',() => showSection(button.dataset.target));
 });
 
 /* CALENDAR */
@@ -1158,9 +1193,11 @@ function renderEvents(events) {
     const name = document.createElement('div');
     name.className = 'event-name';
     name.textContent = event[1];
+
     const meta = document.createElement('div');
     meta.className = 'event-meta';
     meta.textContent = event[2];
+
     info.append(name,meta);
 
     const pill = document.createElement('span');
@@ -1239,20 +1276,59 @@ function resetChecklist() {
   }
 }
 
-/* ANNOUNCEMENT BOARD */
-function renderAnnouncements() {
+/* ANNOUNCEMENT DATA HANDLING */
+
+let announcementRequestNumber = 0;
+let announcementPending = null;
+
+function setAnnouncementStatus(text) {
+  document.getElementById('announcementStatus').textContent = text;
+}
+
+function showAnnouncementMessage(message) {
   const container = document.getElementById('announcementList');
   container.replaceChildren();
 
-  if (ANNOUNCEMENTS.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'empty-state';
-    empty.textContent = '📭 No announcements have been posted yet.';
-    container.appendChild(empty);
+  const box = document.createElement('div');
+  box.className = 'empty-state';
+  box.textContent = message;
+  container.appendChild(box);
+}
+
+function toAnnouncementDate(value) {
+  const str = String(value || '').trim();
+
+  if (!str) return 0;
+
+  const parsed = Date.parse(str);
+
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function formatAnnouncementDate(value) {
+  const str = String(value || '').trim();
+  const timestamp = toAnnouncementDate(str);
+
+  if (!timestamp) return str;
+
+  return new Date(timestamp).toLocaleDateString('en-US',{
+    year:'numeric',
+    month:'long',
+    day:'numeric',
+    timeZone:'UTC'
+  });
+}
+
+function renderAnnouncements(announcements) {
+  const container = document.getElementById('announcementList');
+  container.replaceChildren();
+
+  if (announcements.length === 0) {
+    showAnnouncementMessage('📭 No published announcements at this time.');
     return;
   }
 
-  ANNOUNCEMENTS.forEach(item => {
+  announcements.forEach(item => {
     const card = document.createElement('article');
     card.className = 'announcement';
 
@@ -1261,11 +1337,11 @@ function renderAnnouncements() {
 
     const tag = document.createElement('span');
     tag.className = 'announcement-tag';
-    tag.textContent = item.category;
+    tag.textContent = item.category || 'ANNOUNCEMENT';
 
     const date = document.createElement('span');
     date.className = 'announcement-date';
-    date.textContent = item.date;
+    date.textContent = formatAnnouncementDate(item.date);
 
     header.append(tag,date);
 
@@ -1280,10 +1356,135 @@ function renderAnnouncements() {
   });
 }
 
+/*
+  Read the connected Google Sheet through Google's public
+  Visualization endpoint.
+
+  Google Sheets uses a JSONP-style response for this API.
+  The unique responseHandler allows the website to load
+  the data without putting credentials in the HTML.
+*/
+
+function loadAnnouncements() {
+  const id = ++announcementRequestNumber;
+  const status = document.getElementById('announcementStatus');
+
+  if (announcementPending) {
+    announcementPending.cancel();
+    announcementPending = null;
+  }
+
+  status.textContent = '🔄 Loading latest announcements...';
+
+  const callbackName = 'tlnAnnouncementsCallback' + id;
+  const script = document.createElement('script');
+  let finished = false;
+  let timer;
+
+  function finish() {
+    if (finished) return false;
+    finished = true;
+    clearTimeout(timer);
+    delete window[callbackName];
+    script.remove();
+    if (announcementPending && announcementPending.id === id) {
+      announcementPending = null;
+    }
+    return true;
+  }
+
+  announcementPending = {
+    id,
+    cancel:finish
+  };
+
+  window[callbackName] = function(response) {
+    if (!finish()) return;
+
+    if (!response || response.status !== 'ok' || !response.table) {
+      setAnnouncementStatus('⚠️ Could not read the announcement sheet.');
+      showAnnouncementMessage(
+        'Announcements could not be loaded. Please check the spreadsheet sharing settings.'
+      );
+      return;
+    }
+
+    const rows = response.table.rows || [];
+
+    const announcements = rows.map((row,index) => {
+      const cells = row.c || [];
+
+      function cellValue(column) {
+        const cell = cells[column];
+        if (!cell) return '';
+        if (cell.f != null && column === 0) return String(cell.f);
+        if (cell.v == null) return '';
+        return String(cell.v);
+      }
+
+      return {
+        date:cellValue(0),
+        category:cellValue(1),
+        title:cellValue(2),
+        message:cellValue(3),
+        status:cellValue(4),
+        originalOrder:index
+      };
+    }).filter(item =>
+      item.status.trim().toLowerCase() === 'published' &&
+      item.title.trim() !== ''
+    );
+
+    announcements.sort((a,b) =>
+      toAnnouncementDate(b.date) - toAnnouncementDate(a.date) ||
+      b.originalOrder - a.originalOrder
+    );
+
+    renderAnnouncements(announcements);
+
+    setAnnouncementStatus(
+      '✅ ' + announcements.length +
+      ' published announcement' +
+      (announcements.length === 1 ? '' : 's') +
+      ' loaded'
+    );
+  };
+
+  script.onerror = function() {
+    if (!finish()) return;
+    setAnnouncementStatus('⚠️ Announcement connection unavailable.');
+    showAnnouncementMessage(
+      'Unable to load announcements. Check your internet connection and Google Sheets sharing permissions.'
+    );
+  };
+
+  timer = setTimeout(() => {
+    if (!finish()) return;
+    setAnnouncementStatus('⚠️ Announcement request timed out.');
+    showAnnouncementMessage(
+      'The announcement sheet did not respond. Please try Refresh Announcements.'
+    );
+  },15000);
+
+  const query = new URLSearchParams({
+    sheet:ANNOUNCEMENT_SHEET_NAME,
+    headers:'1',
+    tqx:'out:json;responseHandler:' + callbackName,
+    v:String(Date.now())
+  });
+
+  script.src =
+    'https://docs.google.com/spreadsheets/d/' +
+    encodeURIComponent(ANNOUNCEMENT_SHEET_ID) +
+    '/gviz/tq?' +
+    query.toString();
+
+  document.head.appendChild(script);
+}
+
 /* INITIALIZE */
 renderEvents(EVENTS);
 renderChecklist();
-renderAnnouncements();
 </script>
 
 </body>
