@@ -58,7 +58,7 @@ table{width:100%;border-collapse:collapse;min-width:620px;background:white}
 th,td{text-align:left;vertical-align:top;border:2px solid var(--line);padding:10px;line-height:1.45}
 th{background:#dff4ff;font-size:13px}
 td{font-size:14px}
-.pill{display:inline-block;border:2px solid var(--ink);padding:3px 8px;font-size:11px;background:#fff1b9;border-radius:3px;white-space:nowrap}
+.pill{display:inline-block;border:2px solid var(--ink);padding:4px 8px;font-size:11px;background:#fff1b9;border-radius:3px;white-space:normal;max-width:165px;line-height:1.25;text-align:center}
 .event-list,.checklist,.timeline,.task-feed,.resource-feed{display:grid;gap:10px}
 .event{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px;border:2px solid var(--ink);background:white}
 .event-date{background:var(--yellow);border:2px solid var(--ink);padding:8px;text-align:center;font-weight:900}
@@ -307,10 +307,12 @@ td{font-size:14px}
 <div class="panel">
 <div class="breadcrumb"><button onclick="showSection('home')">🏠 Home</button><span>›</span><button onclick="showSection('worlds')">🌎 Worlds</button><span>›</span><strong>World 4</strong></div>
 <h2>🗺️ WORLD 4: THE TRAINING MAP</h2>
-<p class="muted">November–December 2026 training schedule. Check the official calendar for updates.</p>
+<p class="muted">November–December 2026 training schedule. November 9–13 weekly sessions are listed separately for Radio Broadcasting and Online Publishing. Check the official calendar for updates.</p>
 <div class="toolbar">
 <button class="btn blue" onclick="filterEvents('all')">All Events</button>
-<button class="btn blue" onclick="filterEvents('Training')">Training</button>
+<button class="btn blue" onclick="filterEvents('Training')">All Training</button>
+<button class="btn blue" onclick="filterEvents('Radio Broadcasting')">📻 Radio Broadcasting</button>
+<button class="btn blue" onclick="filterEvents('Online Publishing')">💻 Online Publishing</button>
 <button class="btn blue" onclick="filterEvents('Press Conference')">Press Conference</button>
 <button class="btn blue" onclick="filterEvents('Critiquing')">Critiquing</button>
 <button class="btn blue" onclick="filterEvents('Learning')">Learning</button>
@@ -318,7 +320,7 @@ td{font-size:14px}
 <button class="btn blue" onclick="filterEvents('RSPC')">RSPC</button>
 </div>
 <div id="eventList" class="event-list"></div>
-<p class="smallprint">Refer to official announcements for schedule changes.</p>
+<p class="smallprint">Nov 9–13: Radio Broadcasting follows its listed daily hours (Nov 13 is revisions only). Online Publishing runs whole day across Nov 9–13. Refer to official announcements for changes.</p>
 <button class="btn blue back-button" onclick="showSection('worlds')">← BACK TO WORLDS</button>
 </div>
 </section>
@@ -497,9 +499,13 @@ const EVENTS = [
 ['Nov 6','Weekly Training','5:00–6:00 PM','Training'],
 ['Nov 7','Saturday Press Conference','7:30 AM–5:00 PM • ONLINE','Press Conference'],
 ['Nov 8','Critiquing','1:00–5:00 PM','Critiquing'],
-['Nov 9','Learning','7:30 AM–4:00 PM','Learning'],
-['Nov 11','Weekly Training','7:30 AM–6:00 PM','Training'],
-['Nov 13','Weekly Training','7:30 AM–6:00 PM','Training'],
+/* Nov 9–13, 2026: category-specific weekly training */
+['Nov 9','Weekly Training','4:00–7:00 PM','Training','Radio Broadcasting'],
+['Nov 9–13','Weekly Training','Whole day • November 9–13, 2026','Training','Online Publishing'],
+['Nov 10','Weekly Training','1:00–7:00 PM','Training','Radio Broadcasting'],
+['Nov 11','Weekly Training','5:00–7:00 PM','Training','Radio Broadcasting'],
+['Nov 12','Weekly Training','7:30 AM–12:00 PM; 5:00–7:00 PM','Training','Radio Broadcasting'],
+['Nov 13','Free Day — Revisions Only','No scheduled session; revisions only','Training','Radio Broadcasting'],
 ['Nov 14','Saturday Press Conference','7:30 AM–5:00 PM','Press Conference'],
 ['Nov 15','Critiquing','1:00–5:00 PM','Critiquing'],
 ['Nov 16','Learning','7:30 AM–4:00 PM','Learning'],
@@ -562,7 +568,7 @@ document.querySelectorAll('.nav button').forEach(button=>{
 });
 
 function filterEvents(category){
-  renderEvents(category==='all'?EVENTS:EVENTS.filter(e=>e[3]===category));
+  renderEvents(category==='all'?EVENTS:EVENTS.filter(e=>e[3]===category||e[4]===category));
 }
 function renderEvents(events){
   const list=document.getElementById('eventList');
@@ -577,7 +583,7 @@ function renderEvents(events){
     const name=document.createElement('div');name.className='event-name';name.textContent=e[1];
     const meta=document.createElement('div');meta.className='event-meta';meta.textContent=e[2];
     info.append(name,meta);
-    const pill=document.createElement('span');pill.className='pill';pill.textContent=e[3];
+    const pill=document.createElement('span');pill.className='pill';pill.textContent=e[4]||e[3];
     row.append(date,info,pill);list.appendChild(row);
   });
 }
